@@ -5,11 +5,11 @@ namespace BelaVista.Entity
 {
     public class Condominium
     {
-        public int Id { get; set; }
+        public int Idd { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Cpf { get; set; }
-        public string Rgg { get; set; }
+        public string Rg { get; set; }
         public string Phone { get; set; }
         public string ContactPhone { get; set; }
         public bool Active { get; set; }
