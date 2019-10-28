@@ -29,9 +29,12 @@ namespace BelaVista.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // ConnectionString BD
             services.AddDbContext<BelaVistaContext>(x => x.UseSqlite(
                 Configuration.GetConnectionString("DefaultConnection")));
 
+            //services.AddScoped<IBelaVistaRepository, BelaVistaRepository>();
+            services.AddScoped<ICondominum, CondominiumRepository>();
             services.AddControllers();
         }
 
