@@ -4,7 +4,7 @@ namespace BelaVista.Entity
 {
     public class Scheduling
     {
-        public int Idd { get; set; }
+        public int Id { get; set; }
         public int ScheduleTypeId { get; set; }
         public int CondominiumId { get; set; }
         public int ScheduleStatusId { get; set; }

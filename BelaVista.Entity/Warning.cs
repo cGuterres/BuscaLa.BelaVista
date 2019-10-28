@@ -4,7 +4,7 @@ namespace BelaVista.Entity
 {
     public class Warning
     {
-        public int Idd { get; set; }
+        public int Id { get; set; }
         public int CondominiumId { get; set; }
         public string Description { get; set; }
         public DateTime ScheduleDate { get; set; }

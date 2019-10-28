@@ -4,7 +4,7 @@ namespace BelaVista.Entity
 {
     public class Visitant
     {
-        public int Idd { get; set; }
+        public int Id { get; set; }
         public int CondominiumId { get; set; }
         public string Name { get; set; }
         public string Cpf { get; set; }

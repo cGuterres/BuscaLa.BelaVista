@@ -2,7 +2,7 @@ namespace BelaVista.Entity
 {
     public class RoleCondominiun
     {
-        public int RoleIdd { get; set; }
+        public int RoleId { get; set; }
         public int CondominiumId { get; set; }
     }
 }
