@@ -10,6 +10,6 @@ namespace BelaVista.Repository
 
         void Delete<T>(T entity) where T : class;
 
-        Task<bool> SaveChanges();
+        Task <bool> SaveChanges();
     }
 }

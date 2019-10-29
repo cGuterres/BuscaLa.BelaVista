@@ -7,7 +7,7 @@ namespace BelaVista.Repository
     public interface ICondominum
     {
          Task<List<Condominium>> GetAllCondominiunsAsync();
-         Task<Condominium> GetCondominiumAsync(int id);
+         Task<Condominium> GetCondominiumAsyncById(int id);
          Task<List<Condominium>> GetCondominiumByNameAsync(string name);
     }
 }

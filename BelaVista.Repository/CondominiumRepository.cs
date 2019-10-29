@@ -23,14 +23,16 @@ namespace BelaVista.Repository
             return await query.ToListAsync();
         }
 
-        public async Task<Condominium> GetCondominiumAsync(int id)
+        public async Task<Condominium> GetCondominiumAsyncById(int id)
         {
             IQueryable<Condominium> query = _context.Condominium
             .Include(v => v.Visitants);
 
             query = query.OrderBy(c => c.Name).Where(v => v.Id == id);
-
-            return await query.FirstAsync();
+            if(query != null){
+                return await query.FirstOrDefaultAsync();
+            }
+            return null;
         }
 
         public async Task<List<Condominium>> GetCondominiumByNameAsync(string name)

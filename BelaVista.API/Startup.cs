@@ -33,7 +33,7 @@ namespace BelaVista.API
             services.AddDbContext<BelaVistaContext>(x => x.UseSqlite(
                 Configuration.GetConnectionString("DefaultConnection")));
 
-            //services.AddScoped<IBelaVistaRepository, BelaVistaRepository>();
+            services.AddScoped<IBelaVistaRepository, BelaVistaRepository>();
             services.AddScoped<ICondominum, CondominiumRepository>();
             services.AddControllers();
         }
