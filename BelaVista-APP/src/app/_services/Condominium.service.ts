@@ -1,0 +1,26 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Condominium } from '../_models/Condominium';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CondominiumService {
+  baseURL = 'http://localhost:5000/site/condominium';
+
+  //chamadas para as controllers
+  constructor(private http: HttpClient) { }
+
+  getAllCondominiunsAsync(): Observable<Condominium[]>{
+    return this.http.get<Condominium[]>(this.baseURL);
+  }
+
+  GetCondominiumById(id: number): Observable<Condominium>{
+    return this.http.get<Condominium>(`${this.baseURL}/${id}`);
+  }
+
+  getAllCondominiunsByName(name: string): Observable<Condominium[]>{
+    return this.http.get<Condominium[]>(`${this.baseURL}/getByName/${name}`);
+  }
+}

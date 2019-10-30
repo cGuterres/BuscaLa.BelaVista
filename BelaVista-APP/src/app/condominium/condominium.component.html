@@ -1,0 +1,46 @@
+<div class="form-inline">
+  <div class="form-group mb-2">
+    <label class="mr-2">
+      Filtro: 
+    </label>
+    <input type="text" class="form-control mr-2" placeholder="buscar"
+    [(ngModel)]="filterGrid">
+  </div>
+</div>
+<h4>Filtro: {{filterGrid}}</h4>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>Id</th>
+      <th>Nome</th>
+      <th>E-mail</th>
+      <th>Cpf</th>
+      <th>Telefone</th>
+      <th>Telefone 2</th>
+      <th>Status</th>
+      <th>Data Criação</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let c of gridFiltered">
+      <td>{{c.id}}</td>
+      <td>{{c.name}}</td>
+      <td>{{c.email}}</td>
+      <td>{{c.cpf}}</td>
+      <td>{{c.phone}}</td>
+      <td>{{c.contactPhone}}</td>    
+      <td class="badge badge-success" *ngIf="c.active">
+        Ativo 
+      </td>
+      <td class="badge badge-danger" *ngIf="!c.active">
+        Inativo 
+      </td>
+      <td>{{c.createDate | date: 'dd/MM/yyyy HH:00'}}</td>
+      <td>
+        <button class="btn btn-success"></button>
+        <button class="btn btn-danger"></button>
+      </td>
+    </tr>
+  </tbody>
+</table>

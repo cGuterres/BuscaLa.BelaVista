@@ -36,6 +36,7 @@ namespace BelaVista.API
             services.AddScoped<IBelaVistaRepository, BelaVistaRepository>();
             services.AddScoped<ICondominum, CondominiumRepository>();
             services.AddControllers();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +46,9 @@ namespace BelaVista.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();

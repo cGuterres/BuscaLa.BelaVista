@@ -12,6 +12,7 @@ namespace BelaVista.Repository
         public CondominiumRepository(BelaVistaContext context)
         {
             _context = context;
+            _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
         public async Task<List<Condominium>> GetAllCondominiunsAsync()
         {
