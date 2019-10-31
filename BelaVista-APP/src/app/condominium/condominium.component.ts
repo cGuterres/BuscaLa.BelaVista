@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { stringify } from 'querystring';
 import { CondominiumService } from '../_services/Condominium.service';
 import { Condominium } from '../_models/Condominium';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Constants } from '../util/Constants';
 
 @Component({
   selector: 'app-condominium',
@@ -9,22 +12,110 @@ import { Condominium } from '../_models/Condominium';
   styleUrls: ['./condominium.component.css']
 })
 export class CondominiumComponent implements OnInit {
+  condominiuns: Condominium[];
+  gridFiltered: Condominium[];
+  registerForm: FormGroup;
+  newCondominium: Condominium;
+  mode = '';
+  bodyDeletarCondominium: string;
+
+  constructor(
+    private condominiumService: CondominiumService
+  , private modalService: BsModalService
+  , private fb: FormBuilder
+    ) { }
+
   _filterGrid: string;
   get filterGrid(): string {
     return this._filterGrid;
   }
-  
-  set filterGrid(value: string){
+
+  set filterGrid(value: string) {
     this._filterGrid = value;
     this.gridFiltered = this._filterGrid.length > 0 ? this.searchCondominiumByFilter(this._filterGrid) : this.condominiuns;
   }
-  
-  condominiuns: Condominium[];
-  gridFiltered: Condominium[];
 
-  constructor(private condominiumService: CondominiumService) { }
-  
+  editCondominium(condominium: Condominium, template: any) {
+    this.mode = Constants.MODE_PUT;
+    this.openModal(template);
+    this.newCondominium = condominium;
+    //popula o modal com os dados do condomino
+    this.registerForm.patchValue(condominium);
+  }
+
+  saveCondominum(template: any){
+    this.mode = Constants.MODE_POST;
+    this.openModal(template);
+  }
+
+  openModal(template: any) {
+    //zera o modal sempre que abre
+    this.registerForm.reset();
+    template.show();
+  }
+
+  isValid(){
+    this.registerForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      cpf: ['', Validators.required],
+      phone: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
+      rg: ['', ''],
+      contactPhone: ['', ''],
+      ap: ['', Validators.required]
+    });
+  }
+
+  save(template: any){
+    if(this.isValid){
+      if(this.mode === Constants.MODE_POST){
+        this.newCondominium = Object.assign({}, this.registerForm.value);
+        this.condominiumService.saveCondominiun(this.newCondominium).subscribe(
+        (obj: Condominium) => {
+          console.log(obj);
+          //fecha o modal de cadastro
+          template.hide();
+          //atualiza a grid
+          this.getAllCondominiuns();
+        }, error => {
+          console.log(error);
+        });
+      } else {
+        this.newCondominium = Object.assign({id: this.newCondominium.id}, this.registerForm.value);
+        this.condominiumService.editCondominiun(this.newCondominium).subscribe(
+        (obj: Condominium) => {
+          console.log(obj);
+          //fecha o modal de cadastro
+          template.hide();
+          //atualiza a grid
+          this.getAllCondominiuns();
+        }, error => {
+          console.log(error);
+        });
+      }
+    }
+  }
+
+  excluirCondominium(condominium: Condominium, template: any) {
+    this.openModal(template);
+    this.newCondominium = condominium;
+    this.bodyDeletarCondominium = `Tem certeza que deseja excluir o condômino: ${condominium.name}, Código: ${condominium.id}`;
+  }
+
+  confirmeDelete(template: any) {
+    this.condominiumService.deleteCondominiun(this.newCondominium.id).subscribe(
+      () => {
+          template.hide();
+          this.getAllCondominiuns();
+        }, error => {
+          console.log(error);
+        }
+    );
+  }
+
   ngOnInit() {
+    this.isValid();
     //carrega a lista de condôminos
     this.getAllCondominiuns();
     //atribui a lista do BD a lista de filtrados
@@ -36,6 +127,7 @@ export class CondominiumComponent implements OnInit {
     // tslint:disable-next-line: variable-name
     (_return: Condominium[]) => {
         this.condominiuns = _return;
+        this.gridFiltered = this.condominiuns;
         console.log(_return);
     }
   , error => {

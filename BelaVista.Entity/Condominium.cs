@@ -17,10 +17,12 @@ namespace BelaVista.Entity
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
         public IList<Visitant> Visitants { get; set; }
+        public string Ap { get; set; }
 
         public Condominium()
         {
             this.CreateDate = DateTime.Now;
+            this.Active = true;
         }
     }
 }

@@ -23,4 +23,16 @@ export class CondominiumService {
   getAllCondominiunsByName(name: string): Observable<Condominium[]>{
     return this.http.get<Condominium[]>(`${this.baseURL}/getByName/${name}`);
   }
+
+  saveCondominiun(condominium: Condominium) {
+    return this.http.post(`${this.baseURL}`, condominium);
+  }
+
+  editCondominiun(condominium: Condominium) {
+    return this.http.put(`${this.baseURL}/${condominium.id}`, condominium);
+  }
+
+  deleteCondominiun(id: number) {
+    return this.http.delete(`${this.baseURL}/${id}`);
+  }
 }

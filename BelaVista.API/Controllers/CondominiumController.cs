@@ -91,6 +91,7 @@ namespace BelaVista.API.Controllers
         {
             try
             {
+                //verifica se o registro existe para realizar atualização
                 var condominium = await _repo.GetCondominiumAsyncById(condominiumId);
                 if(condominium == null) return NotFound();
 

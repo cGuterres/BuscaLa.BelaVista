@@ -1,24 +1,31 @@
-<div class="form-inline">
-  <div class="form-group mb-2">
-    <label class="mr-2">
-      Filtro: 
-    </label>
-    <input type="text" class="form-control mr-2" placeholder="buscar"
-    [(ngModel)]="filterGrid">
+<div class="d-flex">
+  <div class="form-inline mr-auto">
+    <div class="form-group mb-2">
+      <label class="mr-2">
+        Filtro: 
+      </label>
+      <input type="text" class="form-control mr-2" placeholder="buscar"
+      [(ngModel)]="filterGrid">
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-outline-primary" (click)="saveCondominum(template)">
+      <i class="fa fa-plus-circle"></i>&nbsp;Novo Condômino
+    </button>
   </div>
 </div>
+
 <h4>Filtro: {{filterGrid}}</h4>
-<table class="table table-striped">
-  <thead class="thead-dark">
+<table class="table table-responsive-lg">
+  <thead class="thead-ligth">
     <tr>
       <th>Id</th>
       <th>Nome</th>
+      <th>Apartamento</th>
+      <th>Celular</th>
       <th>E-mail</th>
       <th>Cpf</th>
-      <th>Telefone</th>
-      <th>Telefone 2</th>
       <th>Status</th>
-      <th>Data Criação</th>
       <th>Ações</th>
     </tr>
   </thead>
@@ -26,21 +33,162 @@
     <tr *ngFor="let c of gridFiltered">
       <td>{{c.id}}</td>
       <td>{{c.name}}</td>
-      <td>{{c.email}}</td>
-      <td>{{c.cpf}}</td>
+      <td>{{c.ap}}</td>
       <td>{{c.phone}}</td>
-      <td>{{c.contactPhone}}</td>    
-      <td class="badge badge-success" *ngIf="c.active">
-        Ativo 
+      <td>{{c.email}}</td>
+      <td>{{c.cpf}}</td>  
+      <td *ngIf="c.active">
+        <span class="badge badge-pill badge-success">Ativo</span>  
       </td>
-      <td class="badge badge-danger" *ngIf="!c.active">
-        Inativo 
+      <td *ngIf="!c.active">
+        <span class="badge badge-pill badge-danger">Inativo</span> 
       </td>
-      <td>{{c.createDate | date: 'dd/MM/yyyy HH:00'}}</td>
       <td>
-        <button class="btn btn-success"></button>
-        <button class="btn btn-danger"></button>
+        <div class="group">
+          <button class="btn btn-sm btn-success" (click)="editCondominium(c, template)" tooltip="Editar">
+            <i class="fa fa-edit">
+            </i>
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="excluirCondominium(c, confirm)" 
+          tooltip="Excluir">
+            <i class="fa fa-eraser">
+            </i>
+          </button>
+        </div>
       </td>
     </tr>
   </tbody>
 </table>
+
+<div bsModal #template="bs-modal" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Cadastro de Condômino</h4>
+        <button type="button" class="close pull-right" (click)="template.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="registerForm">
+          <div class="form-row">
+            <div class="form-group col-md-9">
+              <label>Nome</label>
+              <input type="text" class="form-control"
+              [ngClass]="{'is-invalid': registerForm.get('name').errors && registerForm.get('name').touched}"
+              formControlName="name">
+              <div class="invalid-feedback">
+                Nome é obrigatório
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Apartamento</label>
+              <input type="text" class="form-control"
+              [ngClass]="{'is-invalid': registerForm.get('ap').errors && registerForm.get('ap').touched}"
+              formControlName="ap">
+              <div class="invalid-feedback">
+                Apartamento é obrigatório
+              </div>
+            </div>
+          </div>  
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>CPF</label>
+              <input type="text" class="form-control" 
+              [ngClass]="{'is-invalid': registerForm.get('cpf').errors && registerForm.get('cpf').touched}"
+              formControlName="cpf">
+              <div class="invalid-feedback">
+                Cpf é obrigatório
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>RG</label>
+              <input type="text" class="form-control" formControlName="rg">
+            </div>
+          </div>  
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Telefone</label>
+              <input type="text" class="form-control" 
+              [ngClass]="{'is-invalid': registerForm.get('phone').errors && registerForm.get('phone').touched}"
+              formControlName="phone">
+              <div class="invalid-feedback">
+                Telefone é obrigatório
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Telefone Residencial</label>
+              <input type="text" class="form-control" formControlName="contactPhone">
+            </div>
+          </div>  
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label>Senha</label>
+              <input type="password" class="form-control" 
+              [ngClass]="{'is-invalid': registerForm.get('password').errors && registerForm.get('password').touched}"
+              formControlName="password">
+              <div *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched" class="invalid-feedback">
+                Senha é obrigatória
+              </div>
+              <div *ngIf="registerForm.get('password').hasError('minlength') && registerForm.get('password').touched" 
+              class="invalid-feedback">
+              Senha deve ter no mínimo 4 caracteres
+            </div>
+            <div *ngIf="registerForm.get('password').hasError('maxlength') && registerForm.get('password').touched" 
+            class="invalid-feedback">
+              Senha deve ter no máximo 8 caracteres
+            </div>
+          </div>
+          <div class="form-group col-md-8">
+            <label>E-mail</label>
+            <input type="text" class="form-control" 
+            [ngClass]="{'is-invalid': registerForm.get('email').errors && registerForm.get('email').touched}"
+            formControlName="email">
+            <div *ngIf="registerForm.get('email').hasError('required') && registerForm.get('email').touched" class="invalid-feedback">
+              E-mail é obrigatório
+            </div>
+            <div *ngIf="registerForm.get('email').hasError('email') && registerForm.get('email').touched" class="invalid-feedback">
+              E-mail deve ser válido
+            </div>
+          </div>
+        </div> 
+        </form>
+      </div>
+      <div class="modal-footer d-flex">
+        <button class="btn btn-secondary" (click)="template.hide()">
+          Fechar
+        </button>
+        <button class="btn btn-primary ml-auto" [disabled]="!registerForm.valid" (click)="save(template)">
+          Salvar Alterações
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #confirm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title pull-left">
+                Deletando Condômino
+              </h4>
+              <button type="button" class="close pull-right" (click)="confirm.hide()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <p>{{bodyDeletarCondominium}}</p>
+          </div>    
+          <div class="modal-footer btn-group d-flex">      
+              <button type="button" class="btn btn-outline-primary" (click)="confirm.hide()">
+                CENCELAR
+              </button>
+              <button type="button" class="btn btn-outline-danger" (click)="confirmeDelete(confirm)">
+                  DELETAR
+              </button>
+          </div>
+        </div>
+    </div>
+  </div>

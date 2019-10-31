@@ -13,4 +13,5 @@ export interface Condominium {
     createDate: Date;
     updateDate: Date;
     visitants: Visitant[];
+    ap: string;
 }
