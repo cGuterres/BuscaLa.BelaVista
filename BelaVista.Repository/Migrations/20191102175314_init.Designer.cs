@@ -3,14 +3,16 @@ using System;
 using BelaVista.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BelaVista.Repository.Migrations
 {
     [DbContext(typeof(BelaVistaContext))]
-    partial class BelaVistaContextModelSnapshot : ModelSnapshot
+    [Migration("20191102175314_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
