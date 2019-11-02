@@ -150,6 +150,9 @@ namespace BelaVista.Repository.Migrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(256);
 
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("TEXT");
 

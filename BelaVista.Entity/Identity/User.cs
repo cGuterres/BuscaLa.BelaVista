@@ -9,6 +9,9 @@ namespace BelaVista.Entity.Identity
         [Column(TypeName="nvarchar(150)")]
         public string FullName { get; set; }
 
+        [Column(TypeName="nvarchar(50)")]
+        public string Password { get; set; }
+
         public List<UserRole> UserRoles { get; set; }
     }
 }
