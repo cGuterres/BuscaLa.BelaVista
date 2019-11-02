@@ -24,11 +24,12 @@ namespace BelaVista.API.Controllers
             try
             {
                 var results = await _repo.GetAllCondominiunsAsync();
+
                 return Ok(results);
             }
-            catch(System.Exception ex)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Banco de dados sem acesso. {ex.Message}");
             }
         }
@@ -39,14 +40,14 @@ namespace BelaVista.API.Controllers
             try
             {
                 var results = await _repo.GetCondominiumAsyncById(condominiumId);
-                if(results != null)
+                if (results != null)
                 {
                     return Ok(results);
                 }
             }
-            catch(System.Exception ex)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Banco de dados sem acesso. {ex.Message}");
             }
             return BadRequest("Nenhum registro encontrado.");
@@ -60,9 +61,9 @@ namespace BelaVista.API.Controllers
                 var results = await _repo.GetCondominiumByNameAsync(name);
                 return Ok(results);
             }
-            catch(System.Exception ex)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Banco de dados sem acesso. {ex.Message}");
             }
         }
@@ -73,59 +74,59 @@ namespace BelaVista.API.Controllers
             try
             {
                 _repositoryContext.Add(condominium);
-                if(await _repositoryContext.SaveChanges())
+                if (await _repositoryContext.SaveChanges())
                 {
                     return Created($"/site/condominium/{condominium.Id}", condominium);
                 }
             }
-            catch(System.Exception ex)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Banco de dados sem acesso. {ex.Message}");
             }
             return BadRequest();
         }
 
-        [HttpPut()]
+        [HttpPut("{condominiumId}")]
         public async Task<IActionResult> Put(int condominiumId, Condominium model)
         {
             try
             {
                 //verifica se o registro existe para realizar atualização
                 var condominium = await _repo.GetCondominiumAsyncById(condominiumId);
-                if(condominium == null) return NotFound();
+                if (condominium == null) return NotFound();
 
                 _repositoryContext.Update(model);
-                if(await _repositoryContext.SaveChanges())
+                if (await _repositoryContext.SaveChanges())
                 {
                     return Created($"/site/condominium/{model.Id}", model);
                 }
             }
-            catch(System.Exception ex)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Banco de dados sem acesso. {ex.Message}");
             }
             return BadRequest();
         }
 
-        [HttpDelete()]
+        [HttpDelete("{condominiumId}")]
         public async Task<IActionResult> Delete(int condominiumId)
         {
             try
             {
                 var obj = await _repo.GetCondominiumAsyncById(condominiumId);
-                if(obj == null) return NotFound("Não encontrado.");
+                if (obj == null) return NotFound("Não encontrado.");
 
                 _repositoryContext.Delete(obj);
-                if(await _repositoryContext.SaveChanges())
+                if (await _repositoryContext.SaveChanges())
                 {
                     return Ok();
                 }
             }
-            catch(System.Exception ex)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
                     $"Banco de dados sem acesso. {ex.Message}");
             }
             return BadRequest();

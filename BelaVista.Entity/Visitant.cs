@@ -6,6 +6,7 @@ namespace BelaVista.Entity
     {
         public int Id { get; set; }
         public int CondominiumId { get; set; }
+        public Condominium Condominium { get; }
         public string Name { get; set; }
         public string Cpf { get; set; }
         public string Phone { get; set; }

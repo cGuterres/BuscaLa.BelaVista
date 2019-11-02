@@ -2,9 +2,11 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { stringify } from 'querystring';
 import { CondominiumService } from '../_services/Condominium.service';
 import { Condominium } from '../_models/Condominium';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService, ptBrLocale } from 'ngx-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Constants } from '../util/Constants';
+import { ToastrService } from 'ngx-toastr';
+//defineLocale('pt-br', ptBrLocale);
 
 @Component({
   selector: 'app-condominium',
@@ -23,6 +25,7 @@ export class CondominiumComponent implements OnInit {
     private condominiumService: CondominiumService
   , private modalService: BsModalService
   , private fb: FormBuilder
+  , private toastr: ToastrService
     ) { }
 
   _filterGrid: string;
@@ -78,8 +81,9 @@ export class CondominiumComponent implements OnInit {
           template.hide();
           //atualiza a grid
           this.getAllCondominiuns();
+          this.toastr.success('Inserido com sucesso!');
         }, error => {
-          console.log(error);
+          this.toastr.error(`Erro ao inserir cadastro: ${error}`);
         });
       } else {
         this.newCondominium = Object.assign({id: this.newCondominium.id}, this.registerForm.value);
@@ -90,8 +94,9 @@ export class CondominiumComponent implements OnInit {
           template.hide();
           //atualiza a grid
           this.getAllCondominiuns();
+          this.toastr.success('Atualizado com sucesso!');
         }, error => {
-          console.log(error);
+            this.toastr.error(`Erro ao atualizar cadastro: ${error}`);
         });
       }
     }
@@ -108,8 +113,9 @@ export class CondominiumComponent implements OnInit {
       () => {
           template.hide();
           this.getAllCondominiuns();
+          this.toastr.success('Deletado com sucesso');
         }, error => {
-          console.log(error);
+          this.toastr.error(`Erro ao deletar: ${error}`);
         }
     );
   }
@@ -131,7 +137,7 @@ export class CondominiumComponent implements OnInit {
         console.log(_return);
     }
   , error => {
-    console.log(error);
+    this.toastr.error(`Erro ao tentar carregar condôminos: ${error}`);
   });
 }
 
