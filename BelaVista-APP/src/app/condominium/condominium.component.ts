@@ -137,6 +137,7 @@ export class CondominiumComponent implements OnInit {
         console.log(_return);
     }
   , error => {
+    console.log(error);
     this.toastr.error(`Erro ao tentar carregar condôminos: ${error}`);
   });
 }

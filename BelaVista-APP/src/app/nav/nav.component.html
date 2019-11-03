@@ -1,11 +1,11 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-success">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand" href="#">Busca Lá - Bela Vista</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <div *ngIf="loggedIn()" class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="warning">Avisos</a>
@@ -30,22 +30,23 @@
         </li>
       </ul>
     </div>
-    <ul class="navbar-nav">
+    <ul *ngIf="loggedIn()" class="navbar-nav">
       <li class="nav-item dropdown" dropdown>
-        <a dropdownToggle class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
-        Christian
+        <a dropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false" style="cursor: pointer;">
+        {{authService.decodeToken?.unique_name}}
       </a>
       <div *dropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        <a class="dropdown-item" href="#">
+        <a class="dropdown-item">
           Perfil
         </a>
         <div role="separator" class="divider"></div>
-        <a class="dropdown-item" href="#">
+        <a class="dropdown-item" (click)="logOut()" style="cursor: pointer;">
           Sair
         </a>
       </div>
     </li>
   </ul>
+  <button *ngIf="!loggedIn()" class="btn btn-primary" (click)="login()">Entrar</button>
 </div>
 </nav>

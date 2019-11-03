@@ -45,8 +45,9 @@ namespace BelaVista.API.Controllers
                 if(result.Succeeded)
                 {
                     return Created("GetUser", result);
+                }else{
+                    return BadRequest(result.Errors);
                 }
-                return BadRequest(result.Errors); 
             }
             catch(System.Exception ex)
             {
@@ -62,16 +63,19 @@ namespace BelaVista.API.Controllers
             try
             {
                 var findUser = await _userManager.FindByEmailAsync(user.Email);
-                var result = await _signInManager.CheckPasswordSignInAsync(findUser, user.Password, false);
-                if(result.Succeeded)
-                {
-                    var appedUser = await _userManager.Users.
-                    FirstOrDefaultAsync(u => u.Password.Equals(user.Password));
-                    if(appedUser != null){
-                            return Ok(new {
-                            token = GenerateJWToken(appedUser).Result,
-                            userLogin = appedUser    
-                        });
+                if(findUser != null){
+                    var result = await _signInManager.CheckPasswordSignInAsync(findUser, user.Password, false);
+                    if(result.Succeeded)
+                    {
+                        //realiza comparação do e-mail informado na tela
+                        var appedUser = await _userManager.Users.
+                        FirstOrDefaultAsync(u => u.Email.Equals(user.Email));
+                        if(appedUser != null){
+                                return Ok(new {
+                                token = GenerateJWToken(appedUser).Result,
+                                userLogin = appedUser    
+                            });
+                        }
                     }
                 }
                 return Unauthorized();

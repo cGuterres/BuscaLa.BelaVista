@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Condominium } from '../_models/Condominium';
 
@@ -9,10 +9,9 @@ import { Condominium } from '../_models/Condominium';
 export class CondominiumService {
   baseURL = 'http://localhost:5000/site/condominium';
 
-  //chamadas para as controllers
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getAllCondominiunsAsync(): Observable<Condominium[]>{
+  getAllCondominiunsAsync(): Observable<Condominium[]> {
     return this.http.get<Condominium[]>(this.baseURL);
   }
 

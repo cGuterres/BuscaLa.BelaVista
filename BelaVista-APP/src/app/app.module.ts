@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TooltipModule, BsDropdownModule, ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
@@ -8,12 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 
 import { CondominiumService } from './_services/Condominium.service';
+import { AuthService } from './_services/AuthService.service';
+
+import { DateTimeFormatPipePipe } from './_helper/DateTimeFormatPipe.pipe';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { CondominiumComponent } from './condominium/condominium.component';
-
-import { DateTimeFormatPipePipe } from './_helper/DateTimeFormatPipe.pipe';
 import { WarningComponent } from './warning/warning.component';
 import { ContactComponent } from './contact/contact.component';
 import { SchedulingComponent } from './scheduling/scheduling.component';
@@ -21,6 +22,11 @@ import { ComplaintComponent } from './complaint/complaint.component';
 import { MeetingComponent } from './meeting/meeting.component';
 import { VisitantComponent } from './visitant/visitant.component';
 import { TitleComponent } from './_shared/title/title.component';
+import { UserComponent } from './user/user.component';
+import { RegistrationComponent } from './user/registration/registration.component';
+import { LoginComponent } from './user/login/login.component';
+import { AuthInterceptor } from './auth/auth.interceptor';
+
 
 @NgModule({
    declarations: [
@@ -34,7 +40,10 @@ import { TitleComponent } from './_shared/title/title.component';
       ComplaintComponent,
       MeetingComponent,
       VisitantComponent,
-      TitleComponent
+      TitleComponent,
+      UserComponent,
+      LoginComponent,
+      RegistrationComponent
    ],
    imports: [
       BrowserModule,
@@ -43,9 +52,10 @@ import { TitleComponent } from './_shared/title/title.component';
       TooltipModule.forRoot(),
       ModalModule.forRoot(),
       ToastrModule.forRoot({
-         timeOut: 1500,
+         timeOut: 2100,
          positionClass: 'toast-bottom-right',
          preventDuplicates: true,
+         progressBar: true
        }),
       AppRoutingModule,
       HttpClientModule,
@@ -54,7 +64,12 @@ import { TitleComponent } from './_shared/title/title.component';
       BrowserAnimationsModule
    ],
    providers: [
-      CondominiumService
+      CondominiumService,
+      {
+         provide: HTTP_INTERCEPTORS,
+         useClass: AuthInterceptor,
+         multi: true
+      }
    ],
    bootstrap: [
       AppComponent
