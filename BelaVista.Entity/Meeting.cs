@@ -13,5 +13,11 @@ namespace BelaVista.Entity
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
         public DateTime ScheduleDate { get; set; }
+
+        public Meeting()
+        {
+            this.CreateDate = DateTime.Now;
+            this.UpdateDate = DateTime.Now;
+        }
     }
 }

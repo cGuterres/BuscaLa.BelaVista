@@ -1,10 +1,10 @@
 import { Condominium } from './Condominium';
-
-export interface Complaint {
+export interface Warning {
     id: number;
     condominiumId: number;
+    condominium: Condominium;
     description: string;
-    isResolved: boolean;
+    scheduleDate: Date;
     createDate: Date;
-    occurrenceDate: Date;
+    updateDate: Date;
 }

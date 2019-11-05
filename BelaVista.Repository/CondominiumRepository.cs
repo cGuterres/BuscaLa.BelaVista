@@ -16,9 +16,8 @@ namespace BelaVista.Repository
         }
         public async Task<List<Condominium>> GetAllCondominiunsAsync()
         {
-            IQueryable<Condominium> query = _context.Condominium
-            .Include(v => v.Visitants);
-
+            IQueryable<Condominium> query = _context.Condominium;
+            
             query = query.OrderBy(c => c.Name);
 
             return await query.ToListAsync();
@@ -27,7 +26,8 @@ namespace BelaVista.Repository
         public async Task<Condominium> GetCondominiumAsyncById(int id)
         {
             IQueryable<Condominium> query = _context.Condominium
-            .Include(v => v.Visitants);
+            .Include(v => v.Visitants)
+            .Include(w => w.Warnings);
 
             query = query.OrderBy(c => c.Name).Where(v => v.Id == id);
             if(query != null){

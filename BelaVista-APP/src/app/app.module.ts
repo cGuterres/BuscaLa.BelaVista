@@ -26,6 +26,7 @@ import { UserComponent } from './user/user.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 import { LoginComponent } from './user/login/login.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { WarningService } from './_services/Warning.service';
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
       BrowserAnimationsModule
    ],
    providers: [
+      WarningService,
       CondominiumService,
       {
          provide: HTTP_INTERCEPTORS,

@@ -57,7 +57,7 @@ export class CondominiumComponent implements OnInit {
     template.show();
   }
 
-  isValid(){
+  isValid() {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -124,8 +124,6 @@ export class CondominiumComponent implements OnInit {
     this.isValid();
     //carrega a lista de condôminos
     this.getAllCondominiuns();
-    //atribui a lista do BD a lista de filtrados
-    this.gridFiltered = this.condominiuns;
   }
 
   getAllCondominiuns() {

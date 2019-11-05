@@ -15,7 +15,7 @@ export class CondominiumService {
     return this.http.get<Condominium[]>(this.baseURL);
   }
 
-  GetCondominiumById(id: number): Observable<Condominium>{
+  GetCondominiumById(id: number): Observable<Condominium> {
     return this.http.get<Condominium>(`${this.baseURL}/${id}`);
   }
 

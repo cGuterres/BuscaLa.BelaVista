@@ -1,5 +1,5 @@
 export interface Visitant {
-    id: number; 
+    id: number;
     condominiumId: number;
     name: string;
     cpf: string;

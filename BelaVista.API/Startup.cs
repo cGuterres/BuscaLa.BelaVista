@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using BelaVista.Repository.Interfaces;
 
 namespace BelaVista.API
 {
@@ -70,6 +71,8 @@ namespace BelaVista.API
 
             services.AddScoped<IBelaVistaRepository, BelaVistaRepository>();
             services.AddScoped<ICondominum, CondominiumRepository>();
+            services.AddScoped<IComplaint, ComplaintRepository>();
+            services.AddScoped<IWarning, WarningRepository>();
 
             services.AddCors();
         }
