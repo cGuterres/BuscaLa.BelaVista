@@ -65,61 +65,77 @@ role="dialog" aria-labelledby="dialog-sizes-name1">
         <div class="modal-body">
             <form [formGroup]="registerForm">
                 <div class="form-row">
-                    <div class="form-group col-md-9">
-                        <label>Data</label>
-                        <input type="text" class="form-control"
-                        [ngClass]="{'is-invalid': registerForm.get('createDate').errors && registerForm.get('createDate').touched}"
-                        formControlName="createDate">
+                    <div class="form-group col-md-7">
+                        <label>Condômino</label>
+                        <select class="form-control" formControlName="condominiumId">
+                            <option *ngFor="let c of listCondominiuns" value= {{c.id}}>
+                                {{c.name}}
+                            </option>    
+                        </select>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label>Data Ocorrência</label>
+                        <input type="text" class="form-control" bsDatepicker
+                        value="{{scheduleDate | date: 'dd/MM/yyyy HH:mm'}}"
+                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY HH:MM' }"
+                        
+                        [(ngModel)]="scheduleDate"
+                        [ngClass]="{'is-invalid': registerForm.get('scheduleDate').errors && registerForm.get('scheduleDate').touched}"
+                        formControlName="scheduleDate">
                         <div class="invalid-feedback">
-                            Data é obrigatório
+                            Data ocorrência é obrigatória
                         </div>
                     </div>
-                    <div class="form-group col-md-3">
+                </div> 
+                <div class="form-row">
+                    <div class="form-group col-md-12">
                         <label>Descrição</label>
-                        <input type="text" class="form-control"
+                        <textarea class="form-control" aria-label="With textarea"
+                        
                         [ngClass]="{'is-invalid': registerForm.get('description').errors && registerForm.get('description').touched}"
                         formControlName="description">
-                        <div class="invalid-feedback">
-                            Descrição é obrigatória
-                        </div>
+                    </textarea>
+                    <div class="invalid-feedback">
+                        Descrição é obrigatória
                     </div>
                 </div>
-            </form>
-        </div>
-        <div class="modal-footer d-flex">
-            <button class="btn btn-secondary" (click)="template.hide()">
-                Fechar
-            </button>
-            <button class="btn btn-primary ml-auto" [disabled]="!registerForm.valid" (click)="saveEditWarning(template)">
-                Salvar Alterações
-            </button>
-        </div>
+            </div>
+        </form>
     </div>
+    <div class="modal-footer d-flex">
+        <button class="btn btn-secondary" (click)="template.hide()">
+            Fechar
+        </button>
+        <button class="btn btn-primary ml-auto" [disabled]="!registerForm.valid" (click)="saveEditWarning(template)">
+            Salvar Alterações
+        </button>
+    </div>
+</div>
 </div>
 </div>
 
 <div bsModal #confirm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
-          <div class="modal-header">
-              <h4 class="modal-title pull-left">
-                Deletando Aviso
-              </h4>
-              <button type="button" class="close pull-right" (click)="confirm.hide()" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <div class="modal-body">
-            <p>{{bodyDeleteMessage}}</p>
-          </div>    
-          <div class="modal-footer btn-group d-flex">      
-              <button type="button" class="btn btn-outline-primary" (click)="confirm.hide()">
-                CENCELAR
-              </button>
-              <button type="button" class="btn btn-outline-danger" (click)="confirmeDelete(confirm)">
-                  DELETAR
-              </button>
-          </div>
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">
+                    Deletando Aviso
+                </h4>
+                <button type="button" class="close pull-right" (click)="confirm.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{bodyDeleteMessage}}</p>
+            </div>    
+            <div class="modal-footer btn-group d-flex">      
+                <button type="button" class="btn btn-outline-primary" (click)="confirm.hide()">
+                    CENCELAR
+                </button>
+                <button type="button" class="btn btn-outline-danger" (click)="confirmeDelete(confirm)">
+                    DELETAR
+                </button>
+            </div>
         </div>
     </div>
-  </div>
+</div>

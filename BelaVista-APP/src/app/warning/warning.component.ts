@@ -9,6 +9,8 @@ import { CondominiumService } from '../_services/Condominium.service';
 import { Condominium } from '../_models/Condominium';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { defineLocale, BsLocaleService, ptBrLocale } from 'ngx-bootstrap';
+defineLocale('pt-br', ptBrLocale);
 
 @Component({
   selector: 'app-warning',
@@ -23,7 +25,8 @@ export class WarningComponent implements OnInit {
   newWarning: Warning;
   bodyDeleteMessage: string;
   mode: string;
-  data: Condominium;
+
+  listCondominiuns: Condominium[] = [];
 
   constructor(
     private waringService: WarningService
@@ -31,7 +34,10 @@ export class WarningComponent implements OnInit {
   , private modalService: BsModalService
   , private fb: FormBuilder
   , private toastr: ToastrService
-  ) { }
+  , private localeService: BsLocaleService
+  ) {
+    this.localeService.use('pt-br');
+  }
 
   // tslint:disable-next-line: variable-name
   _filterGrid: string;
@@ -65,7 +71,6 @@ export class WarningComponent implements OnInit {
       (_return: Warning[]) => {
           this.listWarnings = _return;
           this.gridFiltered = this.listWarnings;
-          console.log(_return);
       }
     , error => {
       console.log(error);
@@ -75,16 +80,29 @@ export class WarningComponent implements OnInit {
 
   saveWarning(template: any) {
     this.mode = Constants.MODE_POST;
+    this.getAllCondominiums();
     this.openModal(template);
   }
 
   editWarning(warning: Warning, template: any) {
+    this.listCondominiuns = [];
     this.mode = Constants.MODE_PUT;
     this.openModal(template);
     this.newWarning = warning;
-    console.log(this.newWarning);
+    //consulta o condomino pelo id
+    this.condominiumService.GetCondominiumById(warning.condominiumId).subscribe(
+      (obj: Condominium) => {
+        this.listCondominiuns.push(obj);
+      }, error => {
+        this.toastr.error(`Erro ao consultar condomino: ${error}`);
+      });
     //popula o modal com os dados de aviso
-    this.registerForm.patchValue(warning);
+    this.registerForm.patchValue({
+      name: warning.condominium.name,
+      scheduleDate: warning.scheduleDate,
+      description: warning.description,
+      condominiumId: warning.condominium.id
+    });
   }
 
   excluirWarning(warning: Warning, template: any) {
@@ -94,13 +112,11 @@ export class WarningComponent implements OnInit {
   }
 
   saveEditWarning(template: any) {
-    if(this.isValid) {
-      if(this.mode === Constants.MODE_POST){
+    if (this.isValid) {
+      if (this.mode === Constants.MODE_POST) {
         this.newWarning = Object.assign({}, this.registerForm.value);
-        console.log(this.newWarning);
         this.waringService.saveWarning(this.newWarning).subscribe(
         (obj: Warning) => {
-          console.log(obj);
           //fecha o modal de cadastro
           template.hide();
           //atualiza a grid
@@ -113,7 +129,6 @@ export class WarningComponent implements OnInit {
         this.newWarning = Object.assign({id: this.newWarning.id}, this.registerForm.value);
         this.waringService.editWarning(this.newWarning).subscribe(
         (obj: Warning) => {
-          console.log(obj);
           //fecha o modal de cadastro
           template.hide();
           //atualiza a grid
@@ -140,13 +155,27 @@ export class WarningComponent implements OnInit {
 
   isValid() {
     this.registerForm = this.fb.group({
-      createDate: ['', Validators.required],
-      description: ['', Validators.required]
+      scheduleDate: ['', Validators.required],
+      description: ['', Validators.required],
+      condominiumId: ['']
     });
   }
   openModal(template: any) {
     //zera o modal sempre que abre
     this.registerForm.reset();
     template.show();
+  }
+
+  getAllCondominiums() {
+    this.listCondominiuns = [];
+    this.condominiumService.getAllCondominiunsAsync().subscribe(
+      // tslint:disable-next-line: variable-name
+      (_return: Condominium[]) => {
+          this.listCondominiuns = _return;
+      }
+    , error => {
+      console.log(error);
+      this.toastr.error(`Erro ao tentar carregar condôminos: ${error}`);
+    });
   }
 }
