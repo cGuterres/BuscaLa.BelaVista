@@ -9,7 +9,7 @@ namespace BelaVista.API.Controllers
 {
     
     [ApiController]
-    [Route("site/[controller]")]
+    [Route("api/[controller]")]
     public class ComplaintController : ControllerBase
     {
         private readonly IComplaint _repo;
@@ -63,7 +63,7 @@ namespace BelaVista.API.Controllers
                 _repositoryContext.Add(complaint);
                 if (await _repositoryContext.SaveChanges())
                 {
-                    return Created($"/site/complaint/{complaint.Id}", complaint);
+                    return Created($"/api/complaint/{complaint.Id}", complaint);
                 }
             }
             catch (System.Exception ex)
@@ -86,7 +86,7 @@ namespace BelaVista.API.Controllers
                 _repositoryContext.Update(model);
                 if (await _repositoryContext.SaveChanges())
                 {
-                    return Created($"/site/complaint/{model.Id}", model);
+                    return Created($"/api/complaint/{model.Id}", model);
                 }
             }
             catch (System.Exception ex)

@@ -9,7 +9,7 @@ import { Warning } from '../_models/Warning';
 export class WarningService {
 
 constructor(private http: HttpClient) { }
-  baseURL = 'http://localhost:5000/site/warning';
+  baseURL = 'http://localhost:5000/api/warning';
 
   getAllWarningsAsync(): Observable<Warning[]> {
     return this.http.get<Warning[]>(this.baseURL);

@@ -1,18 +1,19 @@
 using System.Threading.Tasks;
 using BelaVista.Entity;
 using BelaVista.Repository;
+using BelaVista.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BelaVista.API.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
-    public class CondominiumController : ControllerBase
+    [ApiController]
+    public class VisitantController : ControllerBase
     {
-        private readonly ICondominum _repo;
+        private readonly IVisitant _repo;
         private readonly IBelaVistaRepository _repositoryContext;
-        public CondominiumController(ICondominum repo, IBelaVistaRepository repositoryContext)
+        public VisitantController(IVisitant repo, IBelaVistaRepository repositoryContext)
         {
             _repo = repo;
             _repositoryContext = repositoryContext;
@@ -23,7 +24,7 @@ namespace BelaVista.API.Controllers
         {
             try
             {
-                var results = await _repo.GetAllCondominiunsAsync();
+                var results = await _repo.GetAllVisitantsAsync();
 
                 return Ok(results);
             }
@@ -34,12 +35,12 @@ namespace BelaVista.API.Controllers
             }
         }
 
-        [HttpGet("{condominiumId}")]
-        public async Task<IActionResult> Get(int condominiumId)
+        [HttpGet("{visitantId}")]
+        public async Task<IActionResult> Get(int visitantId)
         {
             try
             {
-                var results = await _repo.GetCondominiumAsyncById(condominiumId);
+                var results = await _repo.GetVisitantAsyncById(visitantId);
                 if (results != null)
                 {
                     return Ok(results);
@@ -58,7 +59,7 @@ namespace BelaVista.API.Controllers
         {
             try
             {
-                var results = await _repo.GetCondominiumByNameAsync(name);
+                var results = await _repo.GetVisitantByNameAsync(name);
                 return Ok(results);
             }
             catch (System.Exception ex)
@@ -69,14 +70,14 @@ namespace BelaVista.API.Controllers
         }
 
         [HttpPost()]
-        public async Task<IActionResult> Post(Condominium condominium)
+        public async Task<IActionResult> Post(Visitant visitant)
         {
             try
             {
-                _repositoryContext.Add(condominium);
+                _repositoryContext.Add(visitant);
                 if (await _repositoryContext.SaveChanges())
                 {
-                    return Created($"/api/condominium/{condominium.Id}", condominium);
+                    return Created($"/api/visitant/{visitant.Id}", visitant);
                 }
             }
             catch (System.Exception ex)
@@ -87,19 +88,19 @@ namespace BelaVista.API.Controllers
             return BadRequest();
         }
 
-        [HttpPut("{condominiumId}")]
-        public async Task<IActionResult> Put(int condominiumId, Condominium model)
+        [HttpPut("{visitantId}")]
+        public async Task<IActionResult> Put(int visitantId, Visitant model)
         {
             try
             {
                 //verifica se o registro existe para realizar atualização
-                var condominium = await _repo.GetCondominiumAsyncById(condominiumId);
-                if (condominium == null) return NotFound();
+                var visitant = await _repo.GetVisitantAsyncById(visitantId);
+                if (visitant == null) return NotFound();
 
                 _repositoryContext.Update(model);
                 if (await _repositoryContext.SaveChanges())
                 {
-                    return Created($"/api/condominium/{model.Id}", model);
+                    return Created($"/api/visitant/{model.Id}", model);
                 }
             }
             catch (System.Exception ex)
@@ -110,12 +111,12 @@ namespace BelaVista.API.Controllers
             return BadRequest();
         }
 
-        [HttpDelete("{condominiumId}")]
-        public async Task<IActionResult> Delete(int condominiumId)
+        [HttpDelete("{visitantId}")]
+        public async Task<IActionResult> Delete(int visitantId)
         {
             try
             {
-                var obj = await _repo.GetCondominiumAsyncById(condominiumId);
+                var obj = await _repo.GetVisitantAsyncById(visitantId);
                 if (obj == null) return NotFound("Não encontrado.");
 
                 _repositoryContext.Delete(obj);
@@ -132,5 +133,4 @@ namespace BelaVista.API.Controllers
             return BadRequest();
         }
     }
-
 }

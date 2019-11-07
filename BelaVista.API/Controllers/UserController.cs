@@ -15,7 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace BelaVista.API.Controllers
 {
-    [Route("site/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {

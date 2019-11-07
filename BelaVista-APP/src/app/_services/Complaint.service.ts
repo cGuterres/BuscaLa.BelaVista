@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ComplaintService {
-  baseURL = 'http://localhost:5000/site/complaint';
+  baseURL = 'http://localhost:5000/api/complaint';
   constructor(private http: HttpClient) { }
 
   getAllCondominiunsAsync(): Observable<Complaint[]> {

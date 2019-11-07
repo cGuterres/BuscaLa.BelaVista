@@ -39,7 +39,8 @@ namespace BelaVista.Repository
         public async Task<List<Condominium>> GetCondominiumByNameAsync(string name)
         {
             IQueryable<Condominium> query = _context.Condominium
-            .Include(v => v.Visitants);
+            .Include(v => v.Visitants)
+            .Include(w => w.Warnings);
 
             query = query.OrderBy(c => c.Name).Where(c => c.Name.ToLower().Contains(name.ToLower()));
 

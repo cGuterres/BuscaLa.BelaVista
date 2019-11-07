@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BelaVista.API.Controllers
 {
     [ApiController]
-    [Route("site/[controller]")]
+    [Route("api/[controller]")]
     public class WarningController : ControllerBase
     {
         private readonly IWarning _repo;
@@ -62,7 +62,7 @@ namespace BelaVista.API.Controllers
                 _repositoryContext.Add(warning);
                 if (await _repositoryContext.SaveChanges())
                 {
-                    return Created($"/site/warning/{warning.Id}", warning);
+                    return Created($"/api/warning/{warning.Id}", warning);
                 }
             }
             catch (System.Exception ex)
@@ -85,7 +85,7 @@ namespace BelaVista.API.Controllers
                 _repositoryContext.Update(model);
                 if (await _repositoryContext.SaveChanges())
                 {
-                    return Created($"/site/warning/{model.Id}", model);
+                    return Created($"/api/warning/{model.Id}", model);
                 }
             }
             catch (System.Exception ex)

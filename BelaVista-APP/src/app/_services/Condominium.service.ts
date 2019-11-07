@@ -7,7 +7,7 @@ import { Condominium } from '../_models/Condominium';
   providedIn: 'root'
 })
 export class CondominiumService {
-  baseURL = 'http://localhost:5000/site/condominium';
+  baseURL = 'http://localhost:5000/api/condominium';
 
   constructor(private http: HttpClient) {}
 
