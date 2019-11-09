@@ -10,6 +10,7 @@ import { WarningComponent } from './warning/warning.component';
 import { UserComponent } from './user/user.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 import { LoginComponent } from './user/login/login.component';
+import { CondominiumEditComponent } from './condominium/condominium-edit/condominium-edit.component';
 import { AuthGuard } from './auth/auth.guard';
 
 
@@ -21,6 +22,7 @@ const routes: Routes = [
    ]
 },
   { path: 'condominium', component: CondominiumComponent, canActivate: [AuthGuard] },
+  { path: 'condominium/:id/edit', component: CondominiumEditComponent, canActivate: [AuthGuard] },
   { path: 'complaint', component: ComplaintComponent, canActivate: [AuthGuard] },
   { path: 'contact', component: ContactComponent, canActivate: [AuthGuard] },
   { path: 'meeting', component: MeetingComponent, canActivate: [AuthGuard] },

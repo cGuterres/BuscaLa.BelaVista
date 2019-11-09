@@ -27,7 +27,7 @@
       <th>E-mail</th>
       <th>Cpf</th>
       <th>Status</th>
-      <th>Ações</th>
+      <th colspan="2">Ações</th>
     </tr>
   </thead>
   <tbody>
@@ -56,6 +56,11 @@
             </i>
           </button>
         </div>
+      </td>
+      <td>
+        <a tooltip="Edição detalhada" [routerLink]="['/condominium', c.id ,'edit']" routerLinkActive="router-link-active"  class="btn btn-sm btn-warning">
+          <i class="fa fa-edit"></i>
+        </a>
       </td>
     </tr>
   </tbody>

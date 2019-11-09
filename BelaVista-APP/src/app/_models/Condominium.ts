@@ -1,4 +1,5 @@
 import { Visitant } from './Visitant';
+import { Warning } from './Warning';
 
 export interface Condominium {
     id: number;
@@ -13,5 +14,6 @@ export interface Condominium {
     createDate: Date;
     updateDate: Date;
     visitants: Visitant[];
+    warnings: Warning[];
     ap: string;
 }

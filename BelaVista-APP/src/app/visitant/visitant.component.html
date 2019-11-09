@@ -1,1 +1,151 @@
 <app-title></app-title>
+<div class="d-flex">
+    <div class="form-inline mr-auto">
+        <div class="form-group mb-2">
+            <label class="mr-2">
+                Filtro: 
+            </label>
+            <input type="text" class="form-control mr-2" placeholder="buscar"
+            [(ngModel)]="filterGrid">
+        </div>
+    </div>
+    <div>
+        <button class="btn btn-outline-primary" (click)="saveVisitant(template)">
+            <i class="fa fa-plus-circle"></i>&nbsp;Novo Visitante
+        </button>
+    </div>
+</div>
+
+<h4>Filtro: {{filterGrid}}</h4>
+<table class="table table-responsive-lg">
+    <thead class="thead-ligth">
+        <tr>
+            <th>Id</th>
+            <th>Condômino</th>
+            <th>Nome</th>
+            <th>Cpf</th>
+            <th>Phone</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let v of gridFiltered">
+            <td>{{v.id}}</td>
+            <td>{{v.condominium.id}} - {{v.condominium.name}}</td>
+            <td>{{v.name}}</td>
+            <td>{{v.cpf}}</td>
+            <td>{{v.phone}}</td> 
+            <td>
+                <div class="group">
+                    <button class="btn btn-sm btn-success" (click)="editVisitant(v, template)" tooltip="Editar">
+                        <i class="fa fa-edit">
+                        </i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" (click)="deleteVisitant(v, confirm)" 
+                    tooltip="Excluir">
+                    <i class="fa fa-eraser">
+                    </i>
+                </button>
+            </div>
+        </td>
+    </tr>
+</tbody>
+</table>
+
+<div bsModal #template="bs-modal" class="modal fade" tabindex="-1"
+role="dialog" aria-labelledby="dialog-sizes-name1">
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 id="dialog-sizes-name1" class="modal-title pull-left">Cadastro de Visitante</h4>
+            <button type="button" class="close pull-right" (click)="template.hide()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="registerForm">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label>Nome</label>
+                        <input type="text" class="form-control"
+                        [ngClass]="{'is-invalid': registerForm.get('name').errors && registerForm.get('name').touched}"
+                        formControlName="name">
+                        <div class="invalid-feedback">
+                            Nome é obrigatório
+                        </div>
+                    </div>
+                    
+                </div> 
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label>Condômino</label>
+                        <select class="form-control" [ngClass]="{'is-invalid': registerForm.get('condominiumId').errors && registerForm.get('condominiumId').touched}"  
+                        formControlName="condominiumId">
+                            <option *ngFor="let c of listCondominiuns" value= {{c.id}}>
+                            {{c.name}}
+                        </option>    
+                    </select>
+                    <div class="invalid-feedback">
+                        Condômino é obrigatório
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Cpf</label>
+                    <input type="text" class="form-control"
+                    [ngClass]="{'is-invalid': registerForm.get('cpf').errors && registerForm.get('cpf').touched}"
+                    formControlName="cpf">
+                    <div class="invalid-feedback">
+                        Cpf é obrigatório
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Telefone</label>
+                    <input type="text" class="form-control"
+                    [ngClass]="{'is-invalid': registerForm.get('phone').errors && registerForm.get('phone').touched}"
+                    formControlName="phone">
+                    <div class="invalid-feedback">
+                        Telefone obrigatório
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer d-flex">
+        <button class="btn btn-secondary" (click)="template.hide()">
+            Fechar
+        </button>
+        <button class="btn btn-primary ml-auto" [disabled]="!registerForm.valid" (click)="saveEditVisitant(template)">
+            Salvar Alterações
+        </button>
+    </div>
+</div>
+</div>
+</div>
+
+<div bsModal #confirm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">
+                    Deletando Visitante
+                </h4>
+                <button type="button" class="close pull-right" (click)="confirm.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{bodyDeleteMessage}}</p>
+            </div>    
+            <div class="modal-footer btn-group d-flex">      
+                <button type="button" class="btn btn-outline-primary" (click)="confirm.hide()">
+                    CENCELAR
+                </button>
+                <button type="button" class="btn btn-outline-danger" (click)="confirmeDelete(confirm)">
+                    DELETAR
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

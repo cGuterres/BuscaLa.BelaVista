@@ -3,9 +3,10 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TooltipModule, BsDropdownModule, ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { TooltipModule, BsDropdownModule, ModalModule, BsDatepickerModule, TabsModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxMaskModule } from 'ngx-mask';
 
 import { CondominiumService } from './_services/Condominium.service';
 import { AuthService } from './_services/AuthService.service';
@@ -25,6 +26,7 @@ import { TitleComponent } from './_shared/title/title.component';
 import { UserComponent } from './user/user.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 import { LoginComponent } from './user/login/login.component';
+import { CondominiumEditComponent } from './condominium/condominium-edit/condominium-edit.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { WarningService } from './_services/Warning.service';
 
@@ -34,6 +36,7 @@ import { WarningService } from './_services/Warning.service';
       AppComponent,
       NavComponent,
       CondominiumComponent,
+      CondominiumEditComponent,
       DateTimeFormatPipePipe,
       WarningComponent,
       ContactComponent,
@@ -52,6 +55,7 @@ import { WarningService } from './_services/Warning.service';
       BsDropdownModule.forRoot(),
       TooltipModule.forRoot(),
       ModalModule.forRoot(),
+      TabsModule.forRoot(),
       ToastrModule.forRoot({
          timeOut: 2100,
          positionClass: 'toast-bottom-right',
@@ -62,7 +66,8 @@ import { WarningService } from './_services/Warning.service';
       HttpClientModule,
       FormsModule,
       ReactiveFormsModule,
-      BrowserAnimationsModule
+      BrowserAnimationsModule,
+      NgxMaskModule
    ],
    providers: [
       WarningService,
