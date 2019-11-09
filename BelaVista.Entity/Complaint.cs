@@ -16,6 +16,7 @@ namespace BelaVista.Entity
         public Complaint()
         {
             this.CreateDate = DateTime.Now;
+            this.IsResolved = false;
         }
     }
 }

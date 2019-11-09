@@ -1,0 +1,150 @@
+<app-title></app-title>
+<div class="d-flex">
+    <div class="form-inline mr-auto">
+        <div class="form-group mb-2">
+            <label class="mr-2">
+                Filtro: 
+            </label>
+            <input type="text" class="form-control mr-2" placeholder="buscar"
+            [(ngModel)]="filterGrid">
+        </div>
+    </div>
+    <div>
+        <button class="btn btn-outline-primary" (click)="saveComplaint(template)">
+            <i class="fa fa-plus-circle"></i>&nbsp;Nova Reclamação
+        </button>
+    </div>
+</div>
+
+<h4>Filtro: {{filterGrid}}</h4>
+<table class="table table-responsive-lg">
+    <thead class="thead-ligth">
+        <tr>
+            <th>Id</th>
+            <th>Condômino</th>
+            <th>Descrição</th>
+            <th>Resolvido</th>
+            <th>Data Ocorrência</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let c of gridFiltered">
+            <td>{{c.id}}</td>
+            <td>{{c.condominium.id}} - {{c.condominium.name}}</td>
+            <td>{{c.description}}</td> 
+            <td>{{c.isResolved === true ? 'Sim' : 'Não'}}</td>
+            <td>{{c.occurrenceDate | date: 'dd/MM/yyyy HH:mm'}}</td>
+            <td>
+                <div class="group">
+                    <button class="btn btn-sm btn-success" (click)="editComplaint(c, template)" tooltip="Editar">
+                        <i class="fa fa-edit">
+                        </i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" (click)="excluirComplaint(c, confirm)" 
+                    tooltip="Excluir">
+                    <i class="fa fa-eraser">
+                    </i>
+                </button>
+            </div>
+        </td>
+    </tr>
+</tbody>
+</table>
+
+<div bsModal #template="bs-modal" class="modal fade" tabindex="-1"
+role="dialog" aria-labelledby="dialog-sizes-name1">
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 id="dialog-sizes-name1" class="modal-title pull-left">Cadastro de Reclamação</h4>
+            <button type="button" class="close pull-right" (click)="template.hide()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="registerForm">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label>Condômino</label>
+                        <select class="form-control" 
+                        [ngClass]="{'is-invalid': registerForm.get('condominiumId').errors && registerForm.get('condominiumId').touched}"  
+                        formControlName="condominiumId">
+                        <option *ngFor="let c of listCondominiuns" value= {{c.id}}>
+                            {{c.name}}
+                        </option>    
+                    </select>
+                    <div class="invalid-feedback">
+                        Condômino é obrigatório
+                    </div>
+                </div>
+                <div class="form-group col-md-10">
+                    <label>Data Ocorrência</label>
+                    <input type="text" class="form-control" bsDatepicker
+                    value="{{occurrenceDate | date: 'dd/MM/yyyy HH:mm'}}"
+                    [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY HH:MM' }"
+                    [(ngModel)]="occurrenceDate"
+                    [ngClass]="{'is-invalid': registerForm.get('occurrenceDate').errors && registerForm.get('occurrenceDate').touched}"
+                    formControlName="occurrenceDate">
+                    <div class="invalid-feedback">
+                        Data ocorrência é obrigatória
+                    </div>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Resolvido</label>
+                    <input type="checkbox"
+                    formControlName="isResolved" [(ngModel)]="isResolved" value="isResolved" class="form-control">
+                </div>
+            </div> 
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label>Descrição</label>
+                    <textarea class="form-control" aria-label="With textarea"
+                    [ngClass]="{'is-invalid': registerForm.get('description').errors && registerForm.get('description').touched}"
+                    formControlName="description">
+                </textarea>
+                <div class="invalid-feedback">
+                    Descrição é obrigatória
+                </div>
+                
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer d-flex">
+    <button class="btn btn-secondary" (click)="template.hide()">
+        Fechar
+    </button>
+    <button class="btn btn-primary ml-auto" [disabled]="!registerForm.valid" (click)="saveEditComplaint(template)">
+        Salvar Alterações
+    </button>
+</div>
+</div>
+</div>
+</div>
+
+<div bsModal #confirm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">
+                    Deletando Aviso
+                </h4>
+                <button type="button" class="close pull-right" (click)="confirm.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{bodyDeleteMessage}}</p>
+            </div>    
+            <div class="modal-footer btn-group d-flex">      
+                <button type="button" class="btn btn-outline-primary" (click)="confirm.hide()">
+                    CENCELAR
+                </button>
+                <button type="button" class="btn btn-outline-danger" (click)="confirmeDelete(confirm)">
+                    DELETAR
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

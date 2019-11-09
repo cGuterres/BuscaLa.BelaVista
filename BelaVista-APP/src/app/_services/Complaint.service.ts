@@ -10,11 +10,23 @@ export class ComplaintService {
   baseURL = 'http://localhost:5000/api/complaint';
   constructor(private http: HttpClient) { }
 
-  getAllCondominiunsAsync(): Observable<Complaint[]> {
+  getAllComplaintsAsync(): Observable<Complaint[]> {
     return this.http.get<Complaint[]>(this.baseURL);
   }
 
-  GetCondominiumById(id: number): Observable<Complaint> {
+  GetComplaintById(id: number): Observable<Complaint> {
     return this.http.get<Complaint>(`${this.baseURL}/${id}`);
+  }
+
+  saveComplaint(complaint: Complaint) {
+    return this.http.post(`${this.baseURL}`, complaint);
+  }
+
+  editComplaint(complaint: Complaint) {
+    return this.http.put(`${this.baseURL}/${complaint.id}`, complaint);
+  }
+
+  deleteComplaint(id: number) {
+    return this.http.delete(`${this.baseURL}/${id}`);
   }
 }

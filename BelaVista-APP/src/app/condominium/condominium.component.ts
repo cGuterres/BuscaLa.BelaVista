@@ -63,7 +63,6 @@ export class CondominiumComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       cpf: ['', Validators.required],
       phone: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
       rg: ['', ''],
       contactPhone: ['', ''],
       ap: ['', Validators.required]
@@ -71,8 +70,8 @@ export class CondominiumComponent implements OnInit {
   }
 
   save(template: any){
-    if(this.isValid){
-      if(this.mode === Constants.MODE_POST){
+    if (this.isValid) {
+      if (this.mode === Constants.MODE_POST) {
         this.newCondominium = Object.assign({}, this.registerForm.value);
         this.condominiumService.saveCondominiun(this.newCondominium).subscribe(
         (obj: Condominium) => {

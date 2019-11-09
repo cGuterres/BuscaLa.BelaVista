@@ -18,7 +18,8 @@ namespace BelaVista.Repository
 
         public async Task<List<Complaint>> GetAllComplaintsAsync()
         {
-            IQueryable<Complaint> query = _context.Complaint;
+            IQueryable<Complaint> query = _context.Complaint
+            .Include(c => c.Condominium);
 
             if (query.ToListAsync().Result != null && query.ToListAsync().Result.Count > 0)
             {
@@ -31,7 +32,8 @@ namespace BelaVista.Repository
 
         public async Task<Complaint> GetComplaintAsyncById(int id)
         {
-            IQueryable<Complaint> query = _context.Complaint;
+            IQueryable<Complaint> query = _context.Complaint
+            .Include(c => c.Condominium);
 
             if (query.ToListAsync().Result != null && query.ToListAsync().Result.Count > 0)
             {

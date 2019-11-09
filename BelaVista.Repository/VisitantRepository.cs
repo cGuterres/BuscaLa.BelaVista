@@ -34,7 +34,8 @@ namespace BelaVista.Repository
 
         public async Task<Visitant> GetVisitantAsyncById(int id)
         {
-            IQueryable<Visitant> query = _context.Visitant;
+            IQueryable<Visitant> query = _context.Visitant
+            .Include(c => c.Condominium);
 
             if (query.ToListAsync().Result != null && query.ToListAsync().Result.Count > 0)
             {
