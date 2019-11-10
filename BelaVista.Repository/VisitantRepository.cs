@@ -25,7 +25,7 @@ namespace BelaVista.Repository
                 query = query.OrderByDescending(v => v.Name);
 
                 return await query.ToListAsync();
-            };
+            }
             
             query = query.OrderBy(c => c.Name);
 
