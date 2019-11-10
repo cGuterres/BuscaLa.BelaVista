@@ -8,7 +8,7 @@ namespace BelaVista.Repository
     public interface IScheduling
     {
          Task<List<Scheduling>> GetAllScheduling();
-         Task<List<Scheduling>> SearhSchedulingByDate(DateTime startDate, DateTime endDate);
+         Task<Scheduling> SearhSchedulingByDate(string scheduleDate);
          Task<Scheduling> GetScheduling(int id);
     }
 }

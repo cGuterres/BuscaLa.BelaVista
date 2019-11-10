@@ -18,7 +18,7 @@ export class VisitantComponent implements OnInit {
   listVisitants: Visitant[];
   gridFiltered: Visitant[];
   registerForm: FormGroup;
-  //novo aviso
+  //novo visitante
   newVisitant: Visitant;
   bodyDeleteMessage: string;
   mode: string;

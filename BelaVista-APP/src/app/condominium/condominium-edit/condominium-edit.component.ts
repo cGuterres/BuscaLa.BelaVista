@@ -48,7 +48,7 @@ export class CondominiumEditComponent implements OnInit {
           this.registerForm.patchValue(this.condominium);
 
           this.condominium.warnings.forEach(warning => {
-            //this.warnings.push(this.createWarning(warning));
+            this.warnings.push(this.createWarning(warning));
           });
           // this.evento.redesSociais.forEach(redeSocial => {
           //   this.redesSociais.push(this.criaRedeSocial(redeSocial));
@@ -82,6 +82,7 @@ export class CondominiumEditComponent implements OnInit {
   addWarning() {
     console.log('clicado');
     this.warnings.push(this.createWarning({id: 0}));
+    console.log(this.warnings);
   }
 
   createWarning(warning: any) {

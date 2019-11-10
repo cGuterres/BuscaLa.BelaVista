@@ -55,12 +55,13 @@ namespace BelaVista.API.Controllers
             return BadRequest("Nenhum registro encontrado.");
         }
 
-        [HttpGet("getByDate/{startDate}/{endDate}")]
-        public async Task<IActionResult> Get(DateTime startDate, DateTime endDate)
+        [HttpGet("getByDate/{scheduleDate}")]
+        public async Task<IActionResult> Get(string scheduleDate)
         {
             try
             {
-                var results = await _repo.SearhSchedulingByDate(startDate, endDate);
+                DateTime tmpDate = Convert.ToDateTime(scheduleDate);
+                var results = await _repo.SearhSchedulingByDate(scheduleDate);
                 return Ok(results);
             }
             catch (System.Exception ex)

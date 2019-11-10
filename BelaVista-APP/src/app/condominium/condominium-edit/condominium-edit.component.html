@@ -70,7 +70,7 @@
           </div> 
           
         </tab>
-        <tab heading="Aviso">
+        <tab heading="Avisos">
           <div>
             <div formArrayName="warnings" *ngFor="let warning of warnings.controls; let i=index">
               <fieldset [formGroupName]="i" class="form-group">
@@ -112,56 +112,13 @@
           </fieldset>
         </div>
         <button (click)="addWarning()" class="btn btn-outline-primary">
-          Adicionar Lote
+          Adicionar Aviso
         </button>
       </div>
     </tab>
-    <tab heading="Aviso">
-        <div>
-          <div [formGroup]="registerForm" formArrayName="warnings" *ngFor="let warning of warnings.controls; let i=index">
-            <fieldset [formGroupName]="i" class="form-group">
-              <legend class="d-flex justify-content-between capitalize">
-                <button class="btn btn-sm btn-warning mb-1" (click)="removeWarning(i)">Remover</button>
-              </legend>
-              <div class="row">
-                <div class="form-group col-md-7">
-                  <label>Condômino</label>
-                  
-                </div>
-                <div class="form-group col-md-5">
-                  <label>Data Ocorrência</label>
-                  <input type="text" class="form-control" bsDatepicker
-                  value="{{scheduleDate | date: 'dd/MM/yyyy HH:mm'}}"
-                  [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY HH:MM' }"
-                  
-                  [(ngModel)]="scheduleDate"
-                  [ngClass]="{'is-invalid': warnings.get(i+'.scheduleDate').errors && warnings.get(i+'.scheduleDate').touched}"
-                  formControlName="scheduleDate">
-                  <div class="invalid-feedback">
-                    Data ocorrência é obrigatória
-                  </div>
-                </div>
-              </div> 
-              <div class="form-row">
-                <div class="form-group col-md-12">
-                  <label>Descrição</label>
-                  <textarea class="form-control" aria-label="With textarea"
-                  
-                  [ngClass]="{'is-invalid': warnings.get(i+'.description').errors && warnings.get(i+'.description').touched}"
-                  formControlName="description">
-                </textarea>
-                <div class="invalid-feedback">
-                  Descrição é obrigatória
-                </div>
-              </div>
-            </div>
-        </fieldset>
-      </div>
-      <button (click)="addWarning()" class="btn btn-outline-primary">
-        Adicionar Lote
-      </button>
-    </div>
-  </tab>
+    <tab heading="Reclamações">
+        
+    </tab>
   </tabset>
   <div class="row">
     <div class="col-md-12 d-flex justify-content-end">

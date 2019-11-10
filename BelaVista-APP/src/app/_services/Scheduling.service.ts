@@ -31,7 +31,7 @@ constructor(private http: HttpClient) { }
     return this.http.delete(`${this.baseURL}/${id}`);
   }
 
-  getSchedulingByDate(startDate: Date, endDate: Date): Observable<Scheduling[]> {
-    return this.http.get<Scheduling[]>(`${this.baseURL}/getByDate/${startDate}/${endDate}`);
+  getSchedulingByDate(scheduleDate: string): Observable<Scheduling> {
+    return this.http.get<Scheduling>(`${this.baseURL}/getByDate/${scheduleDate}`);
   }
 }

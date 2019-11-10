@@ -6,9 +6,9 @@ namespace BelaVista.Entity
     {
         public int Id { get; set; }
         public int ScheduleTypeId { get; set; }
-        public ScheduleType ScheduleType { get; }
+        public ScheduleType ScheduleType { get; set;}
         public int CondominiumId { get; set; }
-        public Condominium Condominium { get; }
+        public Condominium Condominium { get; set; }
         public int ScheduleStatusId { get; set; }
         public ScheduleStatus ScheduleStatus { get; set; }
         public DateTime CreateDate { get; set; }
