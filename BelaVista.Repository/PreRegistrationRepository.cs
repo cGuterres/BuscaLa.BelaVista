@@ -9,7 +9,7 @@ namespace BelaVista.Repository
 {
     public class PreRegistrationRepository : IPreRegistration
     {
-        private readonly BelaVistaContext _context;
+        private readonly BelaVistaContext _context; 
         public PreRegistrationRepository(BelaVistaContext context)
         {
             _context = context;
