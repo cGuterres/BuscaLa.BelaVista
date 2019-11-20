@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using BelaVista.Entity;
 using BelaVista.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -69,6 +70,7 @@ namespace BelaVista.API.Controllers
         }
 
         [HttpPost()]
+        [AllowAnonymous]
         public async Task<IActionResult> Post(Condominium condominium)
         {
             try

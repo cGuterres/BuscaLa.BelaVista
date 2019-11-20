@@ -4,6 +4,10 @@ import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/_models/User';
 import { AuthService } from 'src/app/_services/AuthService.service';
 import { Router } from '@angular/router';
+import { Condominium } from 'src/app/_models/Condominium';
+import { CondominiumService } from 'src/app/_services/Condominium.service';
+import { PreRegistrationService } from 'src/app/_services/PreRegistration.service';
+import { PreRegistration } from 'src/app/_models/PreRegistration';
 
 @Component({
   selector: 'app-registration',
@@ -13,12 +17,16 @@ import { Router } from '@angular/router';
 export class RegistrationComponent implements OnInit {
   registerForm: FormGroup;
   user: User;
+  condominium: Condominium;
+  form: any;
 
   constructor(
     public fb: FormBuilder
   , public router: Router
   , private toastr: ToastrService
-  , private authService: AuthService) { }
+  , private authService: AuthService
+  , private condominiumService: CondominiumService
+  , private preRegistrationService: PreRegistrationService) { }
 
   ngOnInit() {
     this.isValid();
@@ -26,10 +34,15 @@ export class RegistrationComponent implements OnInit {
 
   isValid() {
     this.registerForm = this.fb.group({
-      fullName: ['', Validators.required],
+      name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      phone: ['', Validators.required],
       userName: ['', Validators.required],
-      //cria grupo para validar as duas senhas
+      cpf: ['', Validators.required],
+      ap: ['', Validators.required],
+      rg: [''],
+      contactPhone: [''],
+      // cria grupo para validar as duas senhas
       passwords: this.fb.group({
         password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(10)]],
         confirmPassword: ['', Validators.required]
@@ -39,37 +52,54 @@ export class RegistrationComponent implements OnInit {
 
   saveUser() {
     if (this.registerForm.valid) {
-      this.user = Object.assign({
+      this.form = Object.assign({
         password: this.registerForm.get('passwords.password').value}, this.registerForm.value);
-      this.authService.register(this.user).subscribe(
-        () => {
-          this.router.navigate(['/user/login/']);
-          this.toastr.success('Cadastro realizado');
+      // verifica se o usuário que está sendo cadastrado está na base de pre cadastro
+      console.log(this.form.cpf);
+      console.log(this.form.ap);
+      this.preRegistrationService.GetPreRegistration(this.form.cpf, this.form.ap).subscribe(
+        (obj: PreRegistration) => {
+          // se existir cadastra
+          if (obj != null) {
+            this.user = Object.assign({
+              password: this.registerForm.get('passwords.password').value}, this.registerForm.value);
+            this.authService.register(this.user).subscribe(
+              () => {
+                this.condominium = Object.assign({}, this.registerForm.value);
+                this.condominiumService.saveCondominiun(this.condominium).subscribe(
+                  () => {
+                  }, error => {
+                });
+                this.router.navigate(['/user/login/']);
+                this.toastr.success('Cadastro realizado');
+              }, error => {
+                const erro = error.error;
+                erro.forEach(element => {
+                  switch (element.code) {
+                    case 'DuplicateUserName':
+                      this.toastr.error('Usuário já existe');
+                      break;
+                    default:
+                        this.toastr.error(`Erro ao cadastrar usuário: CODE: ${element.code}`); break;
+                  }
+                  this.registerForm.reset();
+                });
+              });
+          } else {
+            this.toastr.error('Usuário não possui pré cadastro. Entre em contato com o sindico.');
+          }
         }, error => {
-          const erro = error.error;
-          erro.forEach(element => {
-            console.log(error);
-            switch (element.code) {
-              case 'DuplicateUserName':
-                this.toastr.error('Usuário já existe');
-                break;
-              default:
-                  this.toastr.error(`Erro ao cadastrar usuário: CODE: ${element.code}`); break;
-            }
-            this.registerForm.reset();
-          });
-        })
+          this.toastr.error('Erro ao carregar pre cadastros.');
+        });
     }
   }
 
   comparatorPassword(fb: FormGroup) {
     const confirmPassword = fb.get('confirmPassword');
-    if (confirmPassword.errors == null || 'mismatch' in confirmPassword.errors)
-    {
+    if (confirmPassword.errors == null || 'mismatch' in confirmPassword.errors) {
       if (fb.get('password').value !== confirmPassword.value) {
         confirmPassword.setErrors({ mismatch: true });
-      } else
-      {
+      } else {
         confirmPassword.setErrors(null);
       }
     }

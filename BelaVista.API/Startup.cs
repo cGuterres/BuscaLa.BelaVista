@@ -75,6 +75,7 @@ namespace BelaVista.API
             services.AddScoped<IWarning, WarningRepository>();
             services.AddScoped<IVisitant, VisitantRepository>();
             services.AddScoped<IScheduling, SchedulingRepository>();
+            services.AddScoped<IPreRegistration, PreRegistrationRepository>();
 
             services.AddCors();
         }

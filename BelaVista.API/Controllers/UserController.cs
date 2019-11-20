@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using BelaVista.Entity.Identity;
+using BelaVista.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -22,11 +23,14 @@ namespace BelaVista.API.Controllers
         private readonly IConfiguration _config;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        public UserController(IConfiguration config, UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly IBelaVistaRepository _repositoryContext;
+
+        public UserController(IConfiguration config, UserManager<User> userManager, SignInManager<User> signInManager, IBelaVistaRepository repositoryContext)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _config = config;
+            _repositoryContext = repositoryContext;
         }
 
         [HttpGet("getUser")]
@@ -44,6 +48,19 @@ namespace BelaVista.API.Controllers
                 var result = await _userManager.CreateAsync(user, user.Password);
                 if(result.Succeeded)
                 {
+                    // cria role
+                    var tmpUser = await _userManager.FindByEmailAsync(user.Email);
+                    if(tmpUser != null){        
+                        var userRole = new UserRole();
+                        userRole.UserId = tmpUser.Id;
+                        // fixo 2 usuário comum
+                        userRole.RoleId = 2;
+                        _repositoryContext.Add(userRole);
+                    }
+                    if (await _repositoryContext.SaveChanges())
+                    {
+                    }
+                    
                     return Created("GetUser", result);
                 }else{
                     return BadRequest(result.Errors);
@@ -71,9 +88,11 @@ namespace BelaVista.API.Controllers
                         var appedUser = await _userManager.Users.
                         FirstOrDefaultAsync(u => u.Email.Equals(user.Email));
                         if(appedUser != null){
-                                return Ok(new {
+                            var role = await _userManager.GetRolesAsync(appedUser);
+                            return Ok(new {
                                 token = GenerateJWToken(appedUser).Result,
-                                userLogin = appedUser    
+                                userLogin = appedUser,
+                                role = role
                             });
                         }
                     }

@@ -1,4 +1,4 @@
-<div class="row mt-4">
+<!-- <div class="row mt-4">
   <div class="col-md-6" style="height: 450px;">
     <div class="row col-md-12 my-auto side-heder">
       <h1>Cadastro de Usuário</h1>
@@ -94,4 +94,137 @@ Confirmação não confere
 </div>
 </form>
 </div>
+</div> -->
+
+
+<div class="row mt-4">
+  <div class="col-md-12">
+      <h1>Cadastro de Condômino</h1>
+  </div>
+  <div class="col-md-12">
+    <form [formGroup]="registerForm">
+      <div class="form-row">
+        <div class="form-group col-md-7">
+          <label>Nome</label>
+          <input type="text" class="form-control" placeholder="Insira o Nome Completo"
+          [ngClass]="{'is-invalid': registerForm.get('name').errors && registerForm.get('name').touched}"
+          formControlName="name">
+          <div class="invalid-feedback">
+            Nome é obrigatório
+          </div>
+        </div>
+        <div class="form-group col-md-5">
+          <label>Apartamento</label>
+          <input type="text" class="form-control" placeholder="Apartamento"
+          [ngClass]="{'is-invalid': registerForm.get('ap').errors && registerForm.get('ap').touched}"
+          formControlName="ap">
+          <div class="invalid-feedback">
+            Apartamento é obrigatório
+          </div>
+        </div>
+      </div>  
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>CPF</label>
+          <input type="text" class="form-control"  placeholder="Insira o CPF"
+          [ngClass]="{'is-invalid': registerForm.get('cpf').errors && registerForm.get('cpf').touched}"
+          formControlName="cpf">
+          <div class="invalid-feedback">
+            Cpf é obrigatório
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label>RG</label>
+          <input type="text" class="form-control" formControlName="rg" placeholder="Insira o RG">
+        </div>
+      </div>  
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Telefone</label>
+          <input type="text" class="form-control" placeholder="Insira o Telefone"
+          [ngClass]="{'is-invalid': registerForm.get('phone').errors && registerForm.get('phone').touched}"
+          formControlName="phone">
+          <div class="invalid-feedback">
+            Telefone é obrigatório
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label>Telefone Residencial</label>
+          <input type="text" class="form-control" placeholder="Insira o Telefone Residencial" formControlName="contactPhone">
+        </div>
+      </div>  
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label>E-mail</label>
+          <input type="text" class="form-control" placeholder="Insira o seu E-mail"
+          [ngClass]="{'is-invalid': registerForm.get('email').errors && registerForm.get('email').touched}"
+          formControlName="email">
+          <div *ngIf="registerForm.get('email').hasError('required') && registerForm.get('email').touched" class="invalid-feedback">
+            E-mail é obrigatório
+          </div>
+          <div *ngIf="registerForm.get('email').hasError('email') && registerForm.get('email').touched" class="invalid-feedback">
+            E-mail deve ser válido
+          </div>
+        </div>
+      </div> 
+      <div class="form-group">
+        <label for="">Usuario:</label>
+        <input class="form-control" type="text" formControlName="userName"
+        [ngClass]="{'is-invalid': registerForm.get('userName').errors &&
+        registerForm.get('userName').touched}"
+        placeholder="Insira o nome de Usuário"/>
+        <div *ngIf="registerForm.get('userName').hasError('required') &&
+        registerForm.get('userName').touched"
+        class="invalid-feedback">
+        Usuário é obrigatório.
+      </div>
+      </div>
+      <div formGroupName="passwords">
+        <div class="form-group">
+          <label for="">Senha:</label>
+          <input class="form-control" type="password" formControlName="password"
+          [ngClass]="{ 'is-invalid': registerForm.get('passwords.password').errors &&
+          registerForm.get('passwords.password').touched}"
+          placeholder="Digite uma Senha" />
+          <div *ngIf="registerForm.get('passwords.password').hasError('minlength') &&
+          registerForm.get('passwords.password').touched"
+          class="invalid-feedback">
+          Deve conter no mínimo 6 caracteres
+        </div>
+        <div *ngIf="registerForm.get('passwords.password').hasError('maxlength') && registerForm.get('passwords.password').touched" 
+        class="invalid-feedback">
+        Senha deve ter no máximo 10 caracteres
+      </div>
+      <div *ngIf="registerForm.get('passwords.password').hasError('required') &&
+      registerForm.get('passwords.password').touched"
+      class="invalid-feedback">
+      Senha é obrigatório.
+    </div>
+  </div>
+    <div class="form-group">
+      <label for="">Confirmar Senha:</label>
+      <input class="form-control" type="password" formControlName="confirmPassword"
+      [ngClass]="{ 'is-invalid': registerForm.get('passwords.confirmPassword').errors 
+      && registerForm.get('passwords.confirmPassword').touched 
+      ||registerForm.get('passwords.confirmPassword').hasError('mismatch') 
+      && registerForm.get('passwords.confirmPassword').touched }"
+      placeholder="Confirme a Senha" />
+      <div *ngIf="registerForm.get('passwords.confirmPassword').hasError('required') &&
+      registerForm.get('passwords.confirmPassword').touched"
+      class="invalid-feedback">
+      Confirme a Senha
+    </div>
+    <div *ngIf="registerForm.get('passwords.confirmPassword').hasError('mismatch') 
+      && registerForm.get('passwords.confirmPassword').touched"
+      class="invalid-feedback">
+      Confirmação não confere
+    </div>
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-group col-md-8 offset-md-2">
+    <button class="btn btn-lg btn-success btn-block" [disabled]="!registerForm.valid" (click)="saveUser()">Registar</button>
+  </div>
+</div>
+</form>
 </div>

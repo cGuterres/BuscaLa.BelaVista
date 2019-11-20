@@ -10,6 +10,7 @@ import { Condominium } from '../_models/Condominium';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { defineLocale, BsLocaleService, ptBrLocale } from 'ngx-bootstrap';
+import { AuthService } from '../_services/AuthService.service';
 defineLocale('pt-br', ptBrLocale);
 
 @Component({
@@ -35,8 +36,14 @@ export class WarningComponent implements OnInit {
   , private fb: FormBuilder
   , private toastr: ToastrService
   , private localeService: BsLocaleService
+  , private authService: AuthService
   ) {
     this.localeService.use('pt-br');
+    this.isAdmin();
+  }
+
+  isAdmin() {
+    return this.authService.isAdmin();
   }
 
   // tslint:disable-next-line: variable-name
@@ -73,7 +80,6 @@ export class WarningComponent implements OnInit {
           this.gridFiltered = this.listWarnings;
       }
     , error => {
-      console.log(error);
       this.toastr.error(`Erro ao tentar carregar avisos: ${error}`);
     });
   }
@@ -174,7 +180,6 @@ export class WarningComponent implements OnInit {
           this.listCondominiuns = _return;
       }
     , error => {
-      console.log(error);
       this.toastr.error(`Erro ao tentar carregar condôminos: ${error}`);
     });
   }

@@ -6,6 +6,7 @@ import { BsModalRef, BsModalService, ptBrLocale } from 'ngx-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Constants } from '../util/Constants';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../_services/AuthService.service';
 //defineLocale('pt-br', ptBrLocale);
 
 @Component({
@@ -26,8 +27,14 @@ export class CondominiumComponent implements OnInit {
   , private modalService: BsModalService
   , private fb: FormBuilder
   , private toastr: ToastrService
-    ) { }
+  , private authService: AuthService
+    ) {
+      this.isAdmin();
+    }
 
+  isAdmin() {
+    return this.authService.isAdmin();
+  }
   _filterGrid: string;
   get filterGrid(): string {
     return this._filterGrid;
@@ -75,7 +82,6 @@ export class CondominiumComponent implements OnInit {
         this.newCondominium = Object.assign({}, this.registerForm.value);
         this.condominiumService.saveCondominiun(this.newCondominium).subscribe(
         (obj: Condominium) => {
-          console.log(obj);
           //fecha o modal de cadastro
           template.hide();
           //atualiza a grid
@@ -88,7 +94,6 @@ export class CondominiumComponent implements OnInit {
         this.newCondominium = Object.assign({id: this.newCondominium.id}, this.registerForm.value);
         this.condominiumService.editCondominiun(this.newCondominium).subscribe(
         (obj: Condominium) => {
-          console.log(obj);
           //fecha o modal de cadastro
           template.hide();
           //atualiza a grid
@@ -131,10 +136,8 @@ export class CondominiumComponent implements OnInit {
     (_return: Condominium[]) => {
         this.condominiuns = _return;
         this.gridFiltered = this.condominiuns;
-        console.log(_return);
     }
   , error => {
-    console.log(error);
     this.toastr.error(`Erro ao tentar carregar condôminos: ${error}`);
   });
 }

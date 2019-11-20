@@ -10,7 +10,7 @@
     </div>
   </div>
   <div>
-    <button class="btn btn-outline-primary" (click)="saveCondominum(template)">
+    <button class="btn btn-outline-primary" *ngIf="isAdmin()" (click)="saveCondominum(template)">
       <i class="fa fa-plus-circle"></i>&nbsp;Novo Condômino
     </button>
   </div>
@@ -27,7 +27,7 @@
       <th>E-mail</th>
       <th>Cpf</th>
       <th>Status</th>
-      <th colspan="2">Ações</th>
+      <th *ngIf="isAdmin()" colspan="2">Ações</th>
     </tr>
   </thead>
   <tbody>
@@ -45,7 +45,7 @@
         <span class="badge badge-pill badge-danger">Inativo</span> 
       </td>
       <td>
-        <div class="group">
+        <div *ngIf="isAdmin()" class="group">
           <button class="btn btn-sm btn-success" (click)="editCondominium(c, template)" tooltip="Editar">
             <i class="fa fa-edit">
             </i>
@@ -57,7 +57,7 @@
           </button>
         </div>
       </td>
-      <td>
+      <td *ngIf="isAdmin()">
         <a tooltip="Edição detalhada" [routerLink]="['/condominium', c.id ,'edit']" routerLinkActive="router-link-active"  class="btn btn-sm btn-warning">
           <i class="fa fa-edit"></i>
         </a>

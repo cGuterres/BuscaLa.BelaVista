@@ -10,7 +10,7 @@
         </div>
     </div>
     <div>
-        <button class="btn btn-outline-primary" (click)="saveWarning(template)">
+        <button class="btn btn-outline-primary" *ngIf="isAdmin()" (click)="saveWarning(template)">
             <i class="fa fa-plus-circle"></i>&nbsp;Novo Aviso
         </button>
     </div>
@@ -25,7 +25,7 @@
             <th>Data Ocorrência</th>
             <th>Condômino</th>
             <th>Descrição</th>
-            <th>Ações</th>
+            <th *ngIf="isAdmin()">Ações</th>
         </tr>
     </thead>
     <tbody>
@@ -36,7 +36,7 @@
             <td>{{c.condominium.id}} - {{c.condominium.name}}</td>
             <td>{{c.description}}</td> 
             <td>
-                <div class="group">
+                <div *ngIf="isAdmin()" class="group">
                     <button class="btn btn-sm btn-success" (click)="editWarning(c, template)" tooltip="Editar">
                         <i class="fa fa-edit">
                         </i>

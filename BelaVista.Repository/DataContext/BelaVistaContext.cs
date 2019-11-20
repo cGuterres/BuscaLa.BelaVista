@@ -18,6 +18,7 @@ namespace BelaVista.Repository
         public DbSet<Scheduling> Scheduling { get; set; }
         public DbSet<Visitant> Visitant { get; set; }
         public DbSet<Warning> Warning { get; set; }
+        public DbSet<PreRegistration> PreRegistration { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -31,7 +32,6 @@ namespace BelaVista.Repository
                         .HasForeignKey(ur => ur.RoleId)
                         .IsRequired();
 
-                    userRole.HasKey(ur => new { ur.UserId, ur.RoleId });
                     userRole.HasOne(ur => ur.User)
                         .WithMany(r => r.UserRoles)
                         .HasForeignKey(ur => ur.UserId)
