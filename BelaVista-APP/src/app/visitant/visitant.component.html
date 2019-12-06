@@ -35,7 +35,7 @@
             <td>{{v.name}}</td>
             <td>{{v.cpf}}</td>
             <td>{{v.phone}}</td> 
-            <td>
+            <td *ngIf="isAdmin(v.condominium.email)">
                 <div class="group">
                     <button class="btn btn-sm btn-success" (click)="editVisitant(v, template)" tooltip="Editar">
                         <i class="fa fa-edit">

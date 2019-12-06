@@ -27,7 +27,7 @@
       <th>E-mail</th>
       <th>Cpf</th>
       <th>Status</th>
-      <th *ngIf="isAdmin()" colspan="2">Ações</th>
+      <th colspan="2">Ações</th>
     </tr>
   </thead>
   <tbody>
@@ -45,7 +45,7 @@
         <span class="badge badge-pill badge-danger">Inativo</span> 
       </td>
       <td>
-        <div *ngIf="isAdmin()" class="group">
+        <div *ngIf="isAdmin(c.email)" class="group">
           <button class="btn btn-sm btn-success" (click)="editCondominium(c, template)" tooltip="Editar">
             <i class="fa fa-edit">
             </i>
@@ -57,7 +57,7 @@
           </button>
         </div>
       </td>
-      <td *ngIf="isAdmin()">
+      <td *ngIf="isAdmin(c.email)">
         <a tooltip="Edição detalhada" [routerLink]="['/condominium', c.id ,'edit']" routerLinkActive="router-link-active"  class="btn btn-sm btn-warning">
           <i class="fa fa-edit"></i>
         </a>

@@ -7,6 +7,7 @@ import { Visitant } from '../_models/Visitant';
 import { Condominium } from '../_models/Condominium';
 import { Constants } from '../util/Constants';
 import { VisitantService } from '../_services/Visitant.service';
+import { AuthService } from '../_services/AuthService.service';
 
 @Component({
   selector: 'app-visitant',
@@ -30,12 +31,24 @@ export class VisitantComponent implements OnInit {
     , private modalService: BsModalService
     , private fb: FormBuilder
     , private toastr: ToastrService
-    , private visitantService: VisitantService) { }
+    , private visitantService: VisitantService
+    , private authService: AuthService) { }
 
   ngOnInit() {
     this.isValid();
 
     this.getAllVisitants();
+  }
+
+  isAdmin(email: string) {
+    if (this.authService.isAdmin()) {
+      return true;
+    }
+
+    if (email === this.authService.currentUserValue.email) {
+      return true;
+    }
+    return false;
   }
 
   getAllVisitants() {

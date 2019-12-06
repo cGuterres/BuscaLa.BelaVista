@@ -23,7 +23,6 @@
             <th>Id</th>
             <th>Data Criação</th>
             <th>Data Ocorrência</th>
-            <th>Condômino</th>
             <th>Descrição</th>
             <th *ngIf="isAdmin()">Ações</th>
         </tr>
@@ -33,7 +32,6 @@
             <td>{{c.id}}</td>
             <td>{{c.createDate | date: 'dd/MM/yyyy HH:mm'}}</td>
             <td>{{c.scheduleDate | date: 'dd/MM/yyyy HH:mm'}}</td>
-            <td>{{c.condominium.id}} - {{c.condominium.name}}</td>
             <td>{{c.description}}</td> 
             <td>
                 <div *ngIf="isAdmin()" class="group">
@@ -65,14 +63,6 @@ role="dialog" aria-labelledby="dialog-sizes-name1">
         <div class="modal-body">
             <form [formGroup]="registerForm">
                 <div class="form-row">
-                    <div class="form-group col-md-7">
-                        <label>Condômino</label>
-                        <select class="form-control" formControlName="condominiumId">
-                            <option *ngFor="let c of listCondominiuns" value= {{c.id}}>
-                                {{c.name}}
-                            </option>    
-                        </select>
-                    </div>
                     <div class="form-group col-md-5" >
                         <label>Data Ocorrência</label>
                         <input type="text" class="form-control" bsDatepicker

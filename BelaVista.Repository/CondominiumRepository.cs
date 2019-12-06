@@ -36,6 +36,15 @@ namespace BelaVista.Repository
             return null;
         }
 
+        public async Task<Condominium> GetCondominiumByEmailAsync(string email)
+        {
+            IQueryable<Condominium> query = _context.Condominium;
+
+            query = query.Where(c => c.Email.ToLower().Contains(email.ToLower()));
+
+            return await query.FirstOrDefaultAsync();
+        }
+
         public async Task<List<Condominium>> GetCondominiumByNameAsync(string name)
         {
             IQueryable<Condominium> query = _context.Condominium

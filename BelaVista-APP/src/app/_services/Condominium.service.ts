@@ -19,10 +19,6 @@ export class CondominiumService {
     return this.http.get<Condominium>(`${this.baseURL}/${id}`);
   }
 
-  getAllCondominiunsByName(name: string): Observable<Condominium[]>{
-    return this.http.get<Condominium[]>(`${this.baseURL}/getByName/${name}`);
-  }
-
   saveCondominiun(condominium: Condominium) {
     return this.http.post(`${this.baseURL}`, condominium);
   }
@@ -33,5 +29,9 @@ export class CondominiumService {
 
   deleteCondominiun(id: number) {
     return this.http.delete(`${this.baseURL}/${id}`);
+  }
+
+  searchCondominiunsByEmail(email: string): Observable<Condominium> {
+    return this.http.get<Condominium>(`${this.baseURL}/getByEmail/${email}`);
   }
 }

@@ -77,12 +77,11 @@ export class RegistrationComponent implements OnInit {
                 erro.forEach(element => {
                   switch (element.code) {
                     case 'DuplicateUserName':
-                      this.toastr.error('Usuário já existe');
+                      this.toastr.error('Email já cadastrado');
                       break;
                     default:
                         this.toastr.error(`Erro ao cadastrar usuário: CODE: ${element.code}`); break;
                   }
-                  this.registerForm.reset();
                 });
               });
           } else {

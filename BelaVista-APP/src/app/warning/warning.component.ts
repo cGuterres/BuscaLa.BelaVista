@@ -95,14 +95,14 @@ export class WarningComponent implements OnInit {
     this.mode = Constants.MODE_PUT;
     this.openModal(template);
     this.newWarning = warning;
-    //consulta o condomino pelo id
+    // consulta o condomino pelo id
     this.condominiumService.GetCondominiumById(warning.condominiumId).subscribe(
       (obj: Condominium) => {
         this.listCondominiuns.push(obj);
       }, error => {
         this.toastr.error(`Erro ao consultar condomino: ${error}`);
       });
-    //popula o modal com os dados de aviso
+    // popula o modal com os dados de aviso
     this.registerForm.patchValue({
       name: warning.condominium.name,
       scheduleDate: warning.scheduleDate,
@@ -123,9 +123,9 @@ export class WarningComponent implements OnInit {
         this.newWarning = Object.assign({}, this.registerForm.value);
         this.waringService.saveWarning(this.newWarning).subscribe(
         (obj: Warning) => {
-          //fecha o modal de cadastro
+          // fecha o modal de cadastro
           template.hide();
-          //atualiza a grid
+          // atualiza a grid
           this.getAllWarnings();
           this.toastr.success('Inserido com sucesso!');
         }, error => {
@@ -135,9 +135,9 @@ export class WarningComponent implements OnInit {
         this.newWarning = Object.assign({id: this.newWarning.id}, this.registerForm.value);
         this.waringService.editWarning(this.newWarning).subscribe(
         (obj: Warning) => {
-          //fecha o modal de cadastro
+          // fecha o modal de cadastro
           template.hide();
-          //atualiza a grid
+          // atualiza a grid
           this.getAllWarnings();
           this.toastr.success('Atualizado com sucesso!');
         }, error => {
@@ -169,6 +169,9 @@ export class WarningComponent implements OnInit {
   openModal(template: any) {
     //zera o modal sempre que abre
     this.registerForm.reset();
+    this.registerForm.patchValue({
+      condominiumId: 1
+    });
     template.show();
   }
 

@@ -9,5 +9,6 @@ namespace BelaVista.Repository
          Task<List<Condominium>> GetAllCondominiunsAsync();
          Task<Condominium> GetCondominiumAsyncById(int id);
          Task<List<Condominium>> GetCondominiumByNameAsync(string name);
+         Task<Condominium> GetCondominiumByEmailAsync(string email);
     }
 }

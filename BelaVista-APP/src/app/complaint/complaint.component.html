@@ -35,7 +35,7 @@
             <td>{{c.description}}</td> 
             <td>{{c.isResolved === true ? 'Sim' : 'Não'}}</td>
             <td>{{c.occurrenceDate | date: 'dd/MM/yyyy HH:mm'}}</td>
-            <td>
+            <td *ngIf="isAdmin(c.condominium.email)">
                 <div class="group">
                     <button class="btn btn-sm btn-success" (click)="editComplaint(c, template)" tooltip="Editar">
                         <i class="fa fa-edit">

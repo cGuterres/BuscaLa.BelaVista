@@ -33,7 +33,7 @@
             <td>{{c.scheduleDate | date: 'dd/MM/yyyy'}}</td>
             <td>{{c.description}}</td> 
             <td>{{c.isCancel === true ? 'Sim' : 'Não'}}</td>
-            <td>
+            <td *ngIf="isAdmin()">
                 <div class="group">
                     <button class="btn btn-sm btn-success" (click)="editMeeting(c, template)" tooltip="Editar">
                         <i class="fa fa-edit">

@@ -8,6 +8,7 @@ import { Condominium } from '../_models/Condominium';
 import { CondominiumService } from '../_services/Condominium.service';
 import { defineLocale, BsLocaleService, ptBrLocale } from 'ngx-bootstrap';
 import { Constants } from '../util/Constants';
+import { AuthService } from '../_services/AuthService.service';
 defineLocale('pt-br', ptBrLocale);
 
 @Component({
@@ -33,8 +34,20 @@ export class ComplaintComponent implements OnInit {
   , private fb: FormBuilder
   , private toastr: ToastrService
   , private localeService: BsLocaleService
+  , private authService: AuthService
   ) {
     this.localeService.use('pt-br');
+  }
+
+  isAdmin(email: string) {
+    if (this.authService.isAdmin()) {
+      return true;
+    }
+
+    if (email === this.authService.currentUserValue.email) {
+      return true;
+    }
+    return false;
   }
 
   // // tslint:disable-next-line: variable-name

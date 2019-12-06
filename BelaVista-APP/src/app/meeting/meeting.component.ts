@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Meeting } from '../_models/Meeting';
 import { Constants } from '../util/Constants';
 import { FileServer } from 'file-saver';
+import { AuthService } from '../_services/AuthService.service';
 defineLocale('pt-br', ptBrLocale);
 
 @Component({
@@ -20,7 +21,8 @@ export class MeetingComponent implements OnInit {
     , private modalService: BsModalService
     , private fb: FormBuilder
     , private toastr: ToastrService
-    , private localeService: BsLocaleService) {
+    , private localeService: BsLocaleService
+    , private authService: AuthService) {
       this.localeService.use('pt-br');
     }
 
@@ -34,6 +36,13 @@ export class MeetingComponent implements OnInit {
   file: File;
   fileBlob: any;
   base64String: string;
+
+  isAdmin() {
+    if (this.authService.isAdmin()) {
+      return true;
+    }
+    return false;
+  }
 
   _filterGrid: string;
   get filterGrid(): string {

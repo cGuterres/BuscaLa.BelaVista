@@ -54,12 +54,12 @@ namespace BelaVista.API.Controllers
             return BadRequest("Nenhum registro encontrado.");
         }
 
-        [HttpGet("getByName/{name}")]
-        public async Task<IActionResult> Get(string name)
+        [HttpGet("getByEmail/{email}")]
+        public async Task<IActionResult> Get(string email)
         {
             try
             {
-                var results = await _repo.GetCondominiumByNameAsync(name);
+                var results = await _repo.GetCondominiumByEmailAsync(email);
                 return Ok(results);
             }
             catch (System.Exception ex)

@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Constants } from '../util/Constants';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../_services/AuthService.service';
+import { User } from '../_models/User';
 //defineLocale('pt-br', ptBrLocale);
 
 @Component({
@@ -21,22 +22,23 @@ export class CondominiumComponent implements OnInit {
   newCondominium: Condominium;
   mode = '';
   bodyDeletarCondominium: string;
-  hasPermission = false;
   constructor(
     private condominiumService: CondominiumService
   , private modalService: BsModalService
   , private fb: FormBuilder
   , private toastr: ToastrService
   , private authService: AuthService
-    ) {
-      this.isAdmin();
+    ) { }
+
+  isAdmin(email: string) {
+    if (this.authService.isAdmin()) {
+      return true;
     }
 
-  isAdmin() {
-    // TODO: admin ou o próprio morador
-    this.hasPermission = this.authService.isAdmin();
-    // consulta o condômino pelo e-mail
-    return this.hasPermission;
+    if (email === this.authService.currentUserValue.email) {
+      return true;
+    }
+    return false;
   }
   _filterGrid: string;
   get filterGrid(): string {
@@ -137,6 +139,7 @@ export class CondominiumComponent implements OnInit {
     this.condominiumService.getAllCondominiunsAsync().subscribe(
     // tslint:disable-next-line: variable-name
     (_return: Condominium[]) => {
+      console.log(_return);
         this.condominiuns = _return;
         this.gridFiltered = this.condominiuns;
     }

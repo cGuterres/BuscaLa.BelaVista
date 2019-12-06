@@ -35,7 +35,7 @@
             <td>{{scheduling.condominium.id}} - {{scheduling.condominium.name}}</td>
             <td>{{scheduling.description}}</td>
             <td>{{scheduling.scheduleStatus.description}}</td> 
-            <td>
+            <td *ngIf="isAdmin(scheduling.condominium.email)">
                 <div class="group">
                     <button class="btn btn-sm btn-success" (click)="editScheduling(scheduling, template)" tooltip="Editar">
                         <i class="fa fa-edit">
@@ -103,7 +103,6 @@ role="dialog" aria-labelledby="dialog-sizes-name1">
                 </div>
             </div>
         </div>
-        <p>FormValue: {{registerForm.value | json}}</p>
     </form>
 </div>
 <div class="modal-footer d-flex">

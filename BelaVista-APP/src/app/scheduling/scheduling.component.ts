@@ -9,6 +9,7 @@ import { SchedulingService } from '../_services/Scheduling.service';
 import { defineLocale, BsLocaleService, ptBrLocale } from 'ngx-bootstrap';
 import { Constants } from '../util/Constants';
 import { DateTimeFormatPipePipe } from '../_helper/DateTimeFormatPipe.pipe';
+import { AuthService } from '../_services/AuthService.service';
 defineLocale('pt-br', ptBrLocale);
 
 @Component({
@@ -35,8 +36,20 @@ export class SchedulingComponent implements OnInit {
     , private toastr: ToastrService
     , private schedulingService: SchedulingService
     , private localeService: BsLocaleService
+    , private authService: AuthService
   ) {
     this.localeService.use('pt-br');
+  }
+
+  isAdmin(email: string) {
+    if (this.authService.isAdmin()) {
+      return true;
+    }
+
+    if (email === this.authService.currentUserValue.email) {
+      return true;
+    }
+    return false;
   }
 
   _filterGrid: string;
