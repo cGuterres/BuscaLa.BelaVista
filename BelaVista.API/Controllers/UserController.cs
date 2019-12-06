@@ -59,9 +59,9 @@ namespace BelaVista.API.Controllers
                     }
                     if (await _repositoryContext.SaveChanges())
                     {
+                        return Created("GetUser", tmpUser);
                     }
-                    
-                    return Created("GetUser", result);
+                    return BadRequest(result.Errors);
                 }else{
                     return BadRequest(result.Errors);
                 }

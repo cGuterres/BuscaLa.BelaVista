@@ -21,7 +21,7 @@ export class CondominiumComponent implements OnInit {
   newCondominium: Condominium;
   mode = '';
   bodyDeletarCondominium: string;
-
+  hasPermission = false;
   constructor(
     private condominiumService: CondominiumService
   , private modalService: BsModalService
@@ -33,7 +33,10 @@ export class CondominiumComponent implements OnInit {
     }
 
   isAdmin() {
-    return this.authService.isAdmin();
+    // TODO: admin ou o próprio morador
+    this.hasPermission = this.authService.isAdmin();
+    // consulta o condômino pelo e-mail
+    return this.hasPermission;
   }
   _filterGrid: string;
   get filterGrid(): string {

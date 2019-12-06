@@ -88,14 +88,14 @@ export class SchedulingComponent implements OnInit {
     this.mode = Constants.MODE_PUT;
     this.openModal(template);
     this.newScheduling = scheduling;
-    //consulta o condomino pelo id
+    // consulta o condomino pelo id
     this.condominiumService.GetCondominiumById(scheduling.condominiumId).subscribe(
       (obj: Condominium) => {
         this.listCondominiuns.push(obj);
       }, error => {
         this.toastr.error(`Erro ao consultar condomino: ${error}`);
       });
-    //popula o modal com os dados de aviso
+    // popula o modal com os dados de aviso
 
     this.registerForm.patchValue({
       name: scheduling.condominium.name,
@@ -115,15 +115,15 @@ export class SchedulingComponent implements OnInit {
     if (this.isValid) {
       if (this.mode === Constants.MODE_POST) {
         this.newScheduling = Object.assign({}, this.registerForm.value);
-        //verifica se nao existe agendamento para a data escolhida
+        // verifica se nao existe agendamento para a data escolhida
         if (!this.validateDate(this.newScheduling.scheduleDate.toString())) {
           this.toastr.success('Data indisponível para agendamento');
         } else {
           this.schedulingService.saveScheduling(this.newScheduling).subscribe(
             (obj: Scheduling) => {
-              //fecha o modal de cadastro
+              // fecha o modal de cadastro
               template.hide();
-              //atualiza a grid
+              // atualiza a grid
               this.getAllSchedulings();
               this.toastr.success('Inserido com sucesso!');
             }, error => {
@@ -137,9 +137,9 @@ export class SchedulingComponent implements OnInit {
         } else {
           this.schedulingService.editScheduling(this.newScheduling).subscribe(
             (obj: Scheduling) => {
-              //fecha o modal de cadastro
+              // fecha o modal de cadastro
               template.hide();
-              //atualiza a grid
+              // atualiza a grid
               this.getAllSchedulings();
               this.toastr.success('Atualizado com sucesso!');
             }, error => {
@@ -172,7 +172,7 @@ export class SchedulingComponent implements OnInit {
     });
   }
   openModal(template: any) {
-    //zera o modal sempre que abre
+    // zera o modal sempre que abre
     this.registerForm.reset();
     this.registerForm.patchValue({
       scheduleTypeId: 1,
